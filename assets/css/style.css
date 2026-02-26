@@ -316,6 +316,7 @@ body {
     border-color: var(--primary-light);
 }
 .shop-card-image {
+    position: relative;
     width: 100%;
     aspect-ratio: 16/10;
     margin: -1.5rem -1.5rem 1rem -1.5rem;
@@ -324,9 +325,13 @@ body {
     background: var(--bg-alt);
 }
 .shop-card-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     display: block;
 }
 .shop-card-badges {
@@ -423,17 +428,22 @@ body {
     align-items: flex-start;
 }
 .shop-header-image {
-    width: 160px;
-    min-height: 120px;
+    position: relative;
+    width: 200px;
+    height: 140px;
     flex-shrink: 0;
     border-radius: var(--radius);
     overflow: hidden;
     background: var(--bg-alt);
 }
 .shop-header-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     display: block;
 }
 .shop-article h1 {
@@ -602,6 +612,7 @@ body {
     transform: translateY(-2px);
 }
 .result-card-icon {
+    position: relative;
     display: block;
     width: 100%;
     height: 80px;
@@ -611,9 +622,13 @@ body {
     background: var(--bg-alt);
 }
 .result-card-icon img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
 }
 .result-type {
     font-size: 0.75rem;
@@ -730,6 +745,7 @@ body {
 .floor-shops { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.75rem; }
 .floor-shop-card { display: flex; flex-direction: column; padding: 1rem; background: var(--bg-alt); border-radius: var(--radius); text-decoration: none; color: var(--text); border: 1px solid var(--border); transition: all var(--transition); }
 .floor-shop-icon {
+    position: relative;
     width: 100%;
     height: 60px;
     margin: -1rem -1rem 0.5rem -1rem;
@@ -738,9 +754,13 @@ body {
     background: var(--bg-alt);
 }
 .floor-shop-icon img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
 }
 .floor-shop-card:hover { border-color: var(--primary-light); }
 .floor-shop-card strong { color: var(--primary); }
