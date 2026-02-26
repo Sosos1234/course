@@ -4,7 +4,7 @@
       "name": "Супермаркет «Европа»",
       "description": "Супермаркет низких цен с собственным производством кулинарных и кондитерских изделий, салатов и полуфабрикатов. Более 2700 кв. м торговой площади.",
       "category_id": 1,
-      "floor_id": 2,
+      "floor_id": 1,
       "pavilion": "А",
       "contact": null,
       "products": [
@@ -19,7 +19,7 @@
       "name": "Гипермаркет детских товаров",
       "description": "Широкий ассортимент товаров для детей: одежда, обувь, игрушки, товары для школьников.",
       "category_id": 3,
-      "floor_id": 2,
+      "floor_id": 1,
       "pavilion": "Б-12",
       "contact": "+7 (4742) 55-00-00",
       "products": [
@@ -33,7 +33,7 @@
       "name": "Магазин бытовой техники и электроники",
       "description": "Телевизоры, холодильники, смартфоны, ноутбуки и другая техника.",
       "category_id": 4,
-      "floor_id": 2,
+      "floor_id": 1,
       "pavilion": "В-5",
       "contact": null,
       "products": [
@@ -48,8 +48,8 @@
       "name": "Фитнес-клуб",
       "description": "Тренажёрный зал, групповые занятия, персональные тренировки.",
       "category_id": 6,
-      "floor_id": 5,
-      "pavilion": "5 этаж",
+      "floor_id": 2,
+      "pavilion": "2 этаж",
       "contact": "+7 (4742) 77-77-77",
       "products": [
         {"name": "Тренажёрный зал", "category": "Услуги"},
@@ -61,8 +61,8 @@
       "name": "Школа танцев",
       "description": "Обучение различным направлениям: хип-хоп, бальные танцы, зумба.",
       "category_id": 7,
-      "floor_id": 5,
-      "pavilion": "5 этаж",
+      "floor_id": 2,
+      "pavilion": "2 этаж",
       "contact": null,
       "products": [
         {"name": "Хип-хоп", "category": "Направления"},
@@ -75,7 +75,7 @@
       "name": "Магазин одежды",
       "description": "Женская и мужская одежда по доступным ценам.",
       "category_id": 2,
-      "floor_id": 2,
+      "floor_id": 1,
       "pavilion": "Б-3",
       "contact": null,
       "products": [
@@ -87,7 +87,7 @@
       "name": "Магазин обуви",
       "description": "Обувь для всей семьи.",
       "category_id": 2,
-      "floor_id": 2,
+      "floor_id": 1,
       "pavilion": "Б-7",
       "contact": null,
       "products": [
