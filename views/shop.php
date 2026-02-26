@@ -14,20 +14,25 @@ $hasTabs = count($productsByCategory) > 1;
 
         <article class="shop-article">
             <header class="shop-header">
-                <h1><?= htmlspecialchars($shop['name']) ?></h1>
-                <div class="shop-badges">
-                    <span class="badge badge-category"><?= htmlspecialchars($shop['category_name']) ?></span>
-                    <span class="badge badge-floor"><?= htmlspecialchars($shop['floor_name']) ?></span>
-                    <?php if (!empty($shop['pavilion'])): ?>
-                    <span class="badge badge-pavilion">Павильон <?= htmlspecialchars($shop['pavilion']) ?></span>
-                    <?php endif; ?>
-                </div>
+                <div class="shop-header-top">
+                    <div class="shop-header-image"><?= getShopIcon((int)$shop['category_id']) ?></div>
+                    <div>
+                        <h1><?= htmlspecialchars($shop['name']) ?></h1>
+                        <div class="shop-badges">
+                            <span class="badge badge-category"><?= htmlspecialchars($shop['category_name']) ?></span>
+                            <span class="badge badge-floor"><?= htmlspecialchars($shop['floor_name']) ?></span>
+                            <?php if (!empty($shop['pavilion'])): ?>
+                            <span class="badge badge-pavilion">Павильон <?= htmlspecialchars($shop['pavilion']) ?></span>
+                            <?php endif; ?>
+                        </div>
                 <?php if (!empty($shop['contact'])): ?>
-                <p class="shop-contact">
-                    <span class="contact-icon">📞</span>
-                    <a href="tel:<?= preg_replace('/\D/', '', $shop['contact']) ?>"><?= htmlspecialchars($shop['contact']) ?></a>
-                </p>
+                        <p class="shop-contact">
+                            <span class="contact-icon">📞</span>
+                            <a href="tel:<?= preg_replace('/\D/', '', $shop['contact']) ?>"><?= htmlspecialchars($shop['contact']) ?></a>
+                        </p>
                 <?php endif; ?>
+                    </div>
+                </div>
             </header>
 
             <?php if (!empty($shop['description'])): ?>

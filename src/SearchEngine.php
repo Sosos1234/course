@@ -61,7 +61,7 @@ class SearchEngine
     private function searchShops(string $expression, int $limit): array
     {
         try {
-            $sql = "SELECT s.id, s.name, s.slug, s.description, s.pavilion,
+            $sql = "SELECT s.id, s.name, s.slug, s.description, s.pavilion, s.category_id,
                            f.name AS floor_name, f.number AS floor_number,
                            MATCH(s.name, s.description, s.fulltext) AGAINST(? IN BOOLEAN MODE) AS relevance
                     FROM shops s
@@ -92,7 +92,7 @@ class SearchEngine
             $params[] = '%' . $w . '%';
         }
 
-        $sql = "SELECT s.id, s.name, s.slug, s.description, s.pavilion, f.name AS floor_name, f.number AS floor_number
+        $sql = "SELECT s.id, s.name, s.slug, s.description, s.pavilion, s.category_id, f.name AS floor_name, f.number AS floor_number
                 FROM shops s JOIN floors f ON s.floor_id = f.id
                 WHERE " . implode(' OR ', $conditions) . "
                 ORDER BY s.name LIMIT " . (int) $limit;
