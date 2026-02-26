@@ -10,6 +10,11 @@ require __DIR__ . '/../bootstrap.php';
 $file = __DIR__ . '/data.json';
 $clear = isset($_GET['clear']) && $_GET['clear'] === '1';
 $result = $app['importer']->loadData($file, $clear);
+if ($result['success'] && $clear && file_exists(__DIR__ . '/../database/seed_news.sql')) {
+    try {
+        $app['pdo']->exec(file_get_contents(__DIR__ . '/../database/seed_news.sql'));
+    } catch (Exception $e) { /* ignore */ }
+}
 
 header('Content-Type: text/html; charset=utf-8');
 ?>

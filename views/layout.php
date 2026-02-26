@@ -8,6 +8,7 @@ $siteConfig = $config ?? [];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ТРЦ Европа 27 — торгово-развлекательный центр в Липецке. Магазины, услуги, акции и новости.">
     <title><?= htmlspecialchars($siteConfig['name'] ?? 'ТРЦ Европа 27') ?> — <?= htmlspecialchars($pageTitle) ?></title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,6 +34,10 @@ $siteConfig = $config ?? [];
             <nav class="nav">
                 <a href="index.php" class="nav-link <?= $page === 'home' ? 'active' : '' ?>">Главная</a>
                 <a href="index.php?page=shops" class="nav-link <?= $page === 'shops' ? 'active' : '' ?>">Магазины</a>
+                <a href="index.php?page=floors" class="nav-link <?= $page === 'floors' ? 'active' : '' ?>">Навигация</a>
+                <a href="index.php?page=news" class="nav-link <?= $page === 'news' ? 'active' : '' ?>">Новости</a>
+                <a href="index.php?page=about" class="nav-link <?= $page === 'about' ? 'active' : '' ?>">О центре</a>
+                <a href="index.php?page=contacts" class="nav-link <?= $page === 'contacts' ? 'active' : '' ?>">Контакты</a>
             </nav>
         </div>
     </header>
@@ -55,6 +60,12 @@ $siteConfig = $config ?? [];
                 <div class="footer-brand">
                     <strong><?= htmlspecialchars($siteConfig['name'] ?? 'ТРЦ Европа 27') ?></strong>
                     <p><?= htmlspecialchars($siteConfig['address'] ?? 'г. Липецк, ул. Стаханова, 36') ?></p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.php?page=shops">Магазины</a>
+                    <a href="index.php?page=news">Новости</a>
+                    <a href="index.php?page=about">О центре</a>
+                    <a href="index.php?page=contacts">Контакты</a>
                 </div>
                 <div class="footer-info">
                     <p><span class="footer-label">Режим работы:</span> <?= htmlspecialchars($siteConfig['work_hours'] ?? '9:00 - 22:00') ?></p>

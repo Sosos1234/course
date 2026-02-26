@@ -30,4 +30,5 @@ return [
     'floor' => new \Europa27\Floor($pdo),
     'search' => new \Europa27\SearchEngine($pdo, $morphy),
     'importer' => new \Europa27\DataImporter($pdo, $morphy),
+    'news' => new \Europa27\News($pdo),
 ];

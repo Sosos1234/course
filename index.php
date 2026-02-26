@@ -12,7 +12,7 @@ $pdo = $app['pdo'];
 $page = $_GET['page'] ?? 'home';
 $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
-$allowedPages = ['home', 'shops', 'shop', 'search', 'admin', 'import'];
+$allowedPages = ['home', 'shops', 'shop', 'search', 'news', 'about', 'contacts', 'floors', 'admin', 'import'];
 if (!in_array($page, $allowedPages, true)) {
     $page = 'home';
 }
@@ -25,7 +25,12 @@ switch ($page) {
             'categories' => $app['category']->getAll(),
             'floors' => $app['floor']->getAll(),
             'shops' => $app['shop']->getList(null, null, 12),
+            'news' => $app['news']->getLatest(3),
             'config' => $config['site'],
+            'stats' => [
+                'shops' => $pdo->query("SELECT COUNT(*) FROM shops")->fetchColumn(),
+                'products' => $pdo->query("SELECT COUNT(*) FROM products")->fetchColumn(),
+            ],
         ];
         break;
 
@@ -61,6 +66,49 @@ switch ($page) {
                 'products' => $app['shop']->getProducts($id),
                 'config' => $config['site'],
             ];
+        }
+        break;
+
+    case 'about':
+        $pageData = [
+            'page' => 'about',
+            'pageTitle' => 'О центре',
+            'config' => $config['site'],
+            'stats' => [
+                'shops' => $pdo->query("SELECT COUNT(*) FROM shops")->fetchColumn(),
+                'products' => $pdo->query("SELECT COUNT(*) FROM products")->fetchColumn(),
+                'categories' => $pdo->query("SELECT COUNT(*) FROM categories")->fetchColumn(),
+            ],
+        ];
+        break;
+
+    case 'contacts':
+        $pageData = [
+            'page' => 'contacts',
+            'pageTitle' => 'Контакты',
+            'config' => $config['site'],
+        ];
+        break;
+
+    case 'news':
+        $pageData = [
+            'page' => 'news',
+            'pageTitle' => 'Новости и акции',
+            'news' => $app['news']->getAll(15),
+            'config' => $config['site'],
+        ];
+        break;
+
+    case 'floors':
+        $pageData = [
+            'page' => 'floors',
+            'pageTitle' => 'Навигация по этажам',
+            'floors' => $app['floor']->getAll(),
+            'shopsByFloor' => [],
+            'config' => $config['site'],
+        ];
+        foreach ($app['floor']->getAll() as $f) {
+            $pageData['shopsByFloor'][$f['id']] = $app['shop']->getList(null, $f['id']);
         }
         break;
 
