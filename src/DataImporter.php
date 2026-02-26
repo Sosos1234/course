@@ -48,7 +48,7 @@ class DataImporter
                 $fulltext = $this->prepareTextRepresentation($shopData);
 
                 $stmt = $this->pdo->prepare("
-                    INSERT INTO shops (name, slug, description, category_id, floor_id, pavilion, contact, fulltext)
+                    INSERT INTO shops (name, slug, description, category_id, floor_id, pavilion, contact, `fulltext`)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 ");
                 $stmt->execute([
@@ -74,7 +74,7 @@ class DataImporter
                     ]);
 
                     $stmt = $this->pdo->prepare("
-                        INSERT INTO products (shop_id, name, category, price, fulltext)
+                        INSERT INTO products (shop_id, name, category, price, `fulltext`)
                         VALUES (?, ?, ?, ?, ?)
                     ");
                     $stmt->execute([
