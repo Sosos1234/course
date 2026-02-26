@@ -13,7 +13,7 @@ $result = $app['importer']->loadData($file, $clear);
 if ($result['success'] && $clear && file_exists(__DIR__ . '/../database/seed_news.sql')) {
     try {
         $app['pdo']->exec(file_get_contents(__DIR__ . '/../database/seed_news.sql'));
-    } catch (Exception $e) { /* ignore */ }
+    } catch (\Exception $e) { /* ignore */ }
 }
 
 header('Content-Type: text/html; charset=utf-8');
