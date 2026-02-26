@@ -32,10 +32,12 @@
         <div class="shop-grid">
             <?php foreach (array_slice($shops, 0, 8) as $s): ?>
             <a href="index.php?page=shop&id=<?= (int)$s['id'] ?>" class="shop-card">
-                <span class="floor-badge"><?= htmlspecialchars($s['floor_name']) ?></span>
-                <?php if (!empty($s['product_count'])): ?>
-                <span class="product-count-badge"><?= (int)$s['product_count'] ?></span>
-                <?php endif; ?>
+                <div class="shop-card-badges">
+                    <span class="floor-badge"><?= htmlspecialchars($s['floor_name']) ?></span>
+                    <?php if (!empty($s['product_count'])): ?>
+                    <span class="product-count-badge"><?= (int)$s['product_count'] ?></span>
+                    <?php endif; ?>
+                </div>
                 <h3><?= htmlspecialchars($s['name']) ?></h3>
                 <p class="shop-floor"><?= htmlspecialchars($s['category_name']) ?><?= $s['pavilion'] ? ' · ' . htmlspecialchars($s['pavilion']) : '' ?></p>
             </a>

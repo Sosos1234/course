@@ -26,10 +26,12 @@
             <?php else: ?>
             <?php foreach ($shops as $s): ?>
             <a href="index.php?page=shop&id=<?= (int)$s['id'] ?>" class="shop-card">
-                <span class="floor-badge"><?= htmlspecialchars($s['floor_name']) ?></span>
-                <?php if (!empty($s['product_count'])): ?>
-                <span class="product-count-badge"><?= (int)$s['product_count'] ?> товаров</span>
-                <?php endif; ?>
+                <div class="shop-card-badges">
+                    <span class="floor-badge"><?= htmlspecialchars($s['floor_name']) ?></span>
+                    <?php if (!empty($s['product_count'])): ?>
+                    <span class="product-count-badge"><?= (int)$s['product_count'] ?> т.</span>
+                    <?php endif; ?>
+                </div>
                 <h3><?= htmlspecialchars($s['name']) ?></h3>
                 <p class="shop-meta"><?= htmlspecialchars($s['category_name']) ?><?= $s['pavilion'] ? ' · ' . htmlspecialchars($s['pavilion']) : '' ?></p>
                 <?php if (!empty($s['description'])): ?>
