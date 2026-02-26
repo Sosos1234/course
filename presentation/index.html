@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Презентация — ТРЦ Европа 27</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/white.css">
+    <style>
+        .reveal h1, .reveal h2 { text-transform: none; }
+        .reveal .slides { text-align: left; }
+        .reveal .slides section { text-align: left; }
+        .reveal .title-slide { text-align: center !important; }
+        .reveal .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+        .reveal ul { margin: 0.5rem 0; }
+        .reveal li { margin: 0.25rem 0; }
+        .accent { color: #0f4c5c; font-weight: 600; }
+        .small { font-size: 0.85em; }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section class="title-slide">
+                <h1>ТРЦ «Европа 27»</h1>
+                <h2>Информационный веб-ресурс</h2>
+                <p class="small">Курсовой проект</p>
+            </section>
+
+            <section>
+                <h2>Цель проекта</h2>
+                <ul>
+                    <li>Создание централизованного информационного ресурса для ТРЦ «Европа 27» (г. Липецк)</li>
+                    <li>Каталогизация магазинов-арендаторов и их товаров/услуг</li>
+                    <li>Удобный поиск для посетителей</li>
+                    <li>Актуальная информация о новостях и акциях</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Технологии</h2>
+                <div class="two-col">
+                    <div>
+                        <p><strong>Серверная часть</strong></p>
+                        <ul>
+                            <li>PHP 8.x</li>
+                            <li>MySQL / MariaDB</li>
+                            <li>Архитектура MVC</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p><strong>Клиентская часть</strong></p>
+                        <ul>
+                            <li>HTML5, CSS3</li>
+                            <li>JavaScript</li>
+                            <li>Адаптивная вёрстка</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="accent" style="margin-top: 1rem;">Поиск: Full-Text Search + морфология (phpMorphy)</p>
+            </section>
+
+            <section>
+                <h2>Структура сайта</h2>
+                <ul>
+                    <li><strong>Главная</strong> — статистика, категории, превью магазинов, новости</li>
+                    <li><strong>Магазины</strong> — каталог с фильтрацией по категории и этажу</li>
+                    <li><strong>Навигация</strong> — план этажей с расположением магазинов</li>
+                    <li><strong>Новости и акции</strong> — лента новостей</li>
+                    <li><strong>О центре</strong> — информация о ТРЦ</li>
+                    <li><strong>Контакты</strong> — адрес, режим работы, горячая линия</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Функционал</h2>
+                <ul>
+                    <li>Поиск по магазинам и товарам с учётом морфологии</li>
+                    <li>Детальные карточки магазинов с вкладками товаров по категориям</li>
+                    <li>5–10 товаров/услуг на каждый магазин</li>
+                    <li>Импорт данных из JSON с опцией перезаписи</li>
+                    <li>Административная панель</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>База данных</h2>
+                <ul class="small">
+                    <li><strong>categories</strong> — категории магазинов</li>
+                    <li><strong>floors</strong> — этажи</li>
+                    <li><strong>shops</strong> — магазины-арендаторы (57+)</li>
+                    <li><strong>products</strong> — товары и услуги</li>
+                    <li><strong>news</strong> — новости и акции</li>
+                </ul>
+                <p>Full-Text индексы для поиска по названиям и описаниям</p>
+            </section>
+
+            <section>
+                <h2>Демонстрация</h2>
+                <p>Сайт доступен по адресу:</p>
+                <p class="accent">http://localhost:8000</p>
+                <p class="small" style="margin-top: 1rem;">Запуск: <code>php -S localhost:8000</code></p>
+            </section>
+
+            <section class="title-slide">
+                <h1>Спасибо за внимание!</h1>
+                <p>Вопросы?</p>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            width: 960,
+            height: 700
+        });
+    </script>
+</body>
+</html>
