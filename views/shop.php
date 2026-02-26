@@ -1,3 +1,11 @@
+<?php
+$productsByCategory = [];
+foreach ($products ?? [] as $p) {
+    $cat = $p['category'] ?: 'Прочее';
+    $productsByCategory[$cat][] = $p;
+}
+$hasTabs = count($productsByCategory) > 1;
+?>
 <section class="section shop-detail">
     <div class="container">
         <nav class="breadcrumb">
@@ -5,29 +13,87 @@
         </nav>
 
         <article class="shop-article">
-            <h1><?= htmlspecialchars($shop['name']) ?></h1>
-            <p class="shop-meta"><?= htmlspecialchars($shop['category_name']) ?> · <?= htmlspecialchars($shop['floor_name']) ?><?= $shop['pavilion'] ? ' · Павильон ' . htmlspecialchars($shop['pavilion']) : '' ?></p>
+            <header class="shop-header">
+                <h1><?= htmlspecialchars($shop['name']) ?></h1>
+                <div class="shop-badges">
+                    <span class="badge badge-category"><?= htmlspecialchars($shop['category_name']) ?></span>
+                    <span class="badge badge-floor"><?= htmlspecialchars($shop['floor_name']) ?></span>
+                    <?php if (!empty($shop['pavilion'])): ?>
+                    <span class="badge badge-pavilion">Павильон <?= htmlspecialchars($shop['pavilion']) ?></span>
+                    <?php endif; ?>
+                </div>
+                <?php if (!empty($shop['contact'])): ?>
+                <p class="shop-contact">
+                    <span class="contact-icon">📞</span>
+                    <a href="tel:<?= preg_replace('/\D/', '', $shop['contact']) ?>"><?= htmlspecialchars($shop['contact']) ?></a>
+                </p>
+                <?php endif; ?>
+            </header>
 
             <?php if (!empty($shop['description'])): ?>
             <div class="shop-description"><?= nl2br(htmlspecialchars($shop['description'])) ?></div>
             <?php endif; ?>
 
-            <?php if (!empty($shop['contact'])): ?>
-            <p><strong>Контакты:</strong> <?= htmlspecialchars($shop['contact']) ?></p>
-            <?php endif; ?>
-
             <?php if (!empty($products)): ?>
-            <h2>Товары и услуги</h2>
-            <ul class="product-list">
-                <?php foreach ($products as $p): ?>
-                <li>
-                    <span class="product-name"><?= htmlspecialchars($p['name']) ?></span>
-                    <?php if (!empty($p['category'])): ?> <span class="product-cat">(<?= htmlspecialchars($p['category']) ?>)</span><?php endif; ?>
-                    <?php if (isset($p['price']) && $p['price']): ?> — <?= number_format((float)$p['price'], 2) ?> ₽<?php endif; ?>
-                </li>
-                <?php endforeach; ?>
-            </ul>
+            <div class="products-section">
+                <h2><span class="products-count"><?= count($products) ?></span> товаров и услуг</h2>
+
+                <?php if ($hasTabs): ?>
+                <div class="tab-buttons">
+                    <?php $i = 0; foreach ($productsByCategory as $catName => $items): ?>
+                    <button type="button" class="tab-btn <?= $i === 0 ? 'active' : '' ?>" data-tab="tab-<?= $i ?>">
+                        <?= htmlspecialchars($catName) ?> (<?= count($items) ?>)
+                    </button>
+                    <?php $i++; endforeach; ?>
+                </div>
+                <div class="tab-contents">
+                    <?php $i = 0; foreach ($productsByCategory as $catName => $items): ?>
+                    <div class="tab-content <?= $i === 0 ? 'active' : '' ?>" id="tab-<?= $i ?>">
+                        <div class="product-cards">
+                            <?php foreach ($items as $p): ?>
+                            <div class="product-card">
+                                <span class="product-name"><?= htmlspecialchars($p['name']) ?></span>
+                                <?php if (isset($p['price']) && $p['price']): ?>
+                                <span class="product-price"><?= number_format((float)$p['price'], 2) ?> ₽</span>
+                                <?php endif; ?>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <?php $i++; endforeach; ?>
+                </div>
+                <?php else: ?>
+                <div class="product-cards">
+                    <?php foreach ($products as $p): ?>
+                    <div class="product-card">
+                        <span class="product-name"><?= htmlspecialchars($p['name']) ?></span>
+                        <?php if (!empty($p['category'])): ?>
+                        <span class="product-cat"><?= htmlspecialchars($p['category']) ?></span>
+                        <?php endif; ?>
+                        <?php if (isset($p['price']) && $p['price']): ?>
+                        <span class="product-price"><?= number_format((float)$p['price'], 2) ?> ₽</span>
+                        <?php endif; ?>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+            </div>
             <?php endif; ?>
         </article>
     </div>
 </section>
+
+<?php if ($hasTabs): ?>
+<script>
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+        document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+        this.classList.add('active');
+        var id = this.getAttribute('data-tab');
+        var content = document.getElementById(id);
+        if (content) content.classList.add('active');
+    });
+});
+</script>
+<?php endif; ?>

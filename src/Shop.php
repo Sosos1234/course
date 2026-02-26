@@ -16,7 +16,8 @@ class Shop
      */
     public function getList(?int $categoryId = null, ?int $floorId = null, int $limit = 100): array
     {
-        $sql = "SELECT s.*, c.name AS category_name, f.name AS floor_name, f.number AS floor_number
+        $sql = "SELECT s.*, c.name AS category_name, f.name AS floor_name, f.number AS floor_number,
+                (SELECT COUNT(*) FROM products p WHERE p.shop_id = s.id) AS product_count
                 FROM shops s
                 JOIN categories c ON s.category_id = c.id
                 JOIN floors f ON s.floor_id = f.id
