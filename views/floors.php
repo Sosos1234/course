@@ -18,7 +18,7 @@
             <div class="floor-shops">
                 <?php foreach ($floorShops as $s): ?>
                 <a href="index.php?page=shop&id=<?= (int)$s['id'] ?>" class="floor-shop-card">
-                    <span class="floor-shop-icon"><?= getShopIcon((int)$s['category_id']) ?></span>
+                    <span class="floor-shop-icon"><img src="<?= htmlspecialchars(getShopImage($s)) ?>" alt="" loading="lazy"></span>
                     <strong><?= htmlspecialchars($s['name']) ?></strong>
                     <span><?= htmlspecialchars($s['category_name']) ?><?= $s['pavilion'] ? ' · ' . htmlspecialchars($s['pavilion']) : '' ?></span>
                 </a>

@@ -15,7 +15,7 @@ $hasTabs = count($productsByCategory) > 1;
         <article class="shop-article">
             <header class="shop-header">
                 <div class="shop-header-top">
-                    <div class="shop-header-image"><?= getShopIcon((int)$shop['category_id']) ?></div>
+                    <div class="shop-header-image"><img src="<?= htmlspecialchars(getShopImage($shop)) ?>" alt="<?= htmlspecialchars($shop['name']) ?>" onerror="this.src='https://picsum.photos/seed/<?= (int)$shop['id'] ?>shop/400/300'"></div>
                     <div>
                         <h1><?= htmlspecialchars($shop['name']) ?></h1>
                         <div class="shop-badges">

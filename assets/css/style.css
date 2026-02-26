@@ -316,12 +316,19 @@ body {
     border-color: var(--primary-light);
 }
 .shop-card-image {
-    width: 56px;
-    height: 56px;
-    margin-bottom: 1rem;
+    width: 100%;
+    aspect-ratio: 16/10;
+    margin: -1.5rem -1.5rem 1rem -1.5rem;
+    border-radius: var(--radius) var(--radius) 0 0;
+    overflow: hidden;
+    background: var(--bg-alt);
 }
-.shop-card-image .shop-icon { display: block; width: 100%; height: 100%; }
-.shop-card-image svg { width: 100%; height: 100%; }
+.shop-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 .shop-card-badges {
     display: flex;
     flex-wrap: wrap;
@@ -416,12 +423,19 @@ body {
     align-items: flex-start;
 }
 .shop-header-image {
-    width: 72px;
-    height: 72px;
+    width: 160px;
+    min-height: 120px;
     flex-shrink: 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--bg-alt);
 }
-.shop-header-image .shop-icon { display: block; width: 100%; height: 100%; }
-.shop-header-image svg { width: 100%; height: 100%; }
+.shop-header-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 .shop-article h1 {
     margin: 0 0 0.75rem;
     font-size: 1.75rem;
@@ -589,11 +603,18 @@ body {
 }
 .result-card-icon {
     display: block;
-    width: 36px;
-    height: 36px;
-    margin-bottom: 0.5rem;
+    width: 100%;
+    height: 80px;
+    margin: -1.25rem -1.25rem 0.75rem -1.25rem;
+    border-radius: var(--radius) var(--radius) 0 0;
+    overflow: hidden;
+    background: var(--bg-alt);
 }
-.result-card-icon svg { width: 100%; height: 100%; }
+.result-card-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 .result-type {
     font-size: 0.75rem;
     font-weight: 600;
@@ -708,8 +729,19 @@ body {
 .floor-desc { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; }
 .floor-shops { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.75rem; }
 .floor-shop-card { display: flex; flex-direction: column; padding: 1rem; background: var(--bg-alt); border-radius: var(--radius); text-decoration: none; color: var(--text); border: 1px solid var(--border); transition: all var(--transition); }
-.floor-shop-icon { width: 32px; height: 32px; margin-bottom: 0.5rem; }
-.floor-shop-icon svg { width: 100%; height: 100%; }
+.floor-shop-icon {
+    width: 100%;
+    height: 60px;
+    margin: -1rem -1rem 0.5rem -1rem;
+    border-radius: var(--radius) var(--radius) 0 0;
+    overflow: hidden;
+    background: var(--bg-alt);
+}
+.floor-shop-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 .floor-shop-card:hover { border-color: var(--primary-light); }
 .floor-shop-card strong { color: var(--primary); }
 .floor-shop-card span { font-size: 0.85rem; color: var(--text-muted); }
