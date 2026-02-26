@@ -26,7 +26,7 @@
             <?php else: ?>
             <?php foreach ($shops as $s): ?>
             <a href="index.php?page=shop&id=<?= (int)$s['id'] ?>" class="shop-card">
-                <div class="shop-card-image"><img src="<?= htmlspecialchars(getShopImage($s)) ?>" alt="<?= htmlspecialchars($s['name']) ?>" loading="lazy" onerror="this.src='https://picsum.photos/seed/<?= (int)$s['id'] ?>shop/400/250'"></div>
+                <div class="shop-card-image"><img src="<?= htmlspecialchars(getShopImage($s)) ?>" alt="<?= htmlspecialchars($s['name']) ?>"></div>
                 <div class="shop-card-badges">
                     <span class="floor-badge"><?= htmlspecialchars($s['floor_name']) ?></span>
                     <?php if (!empty($s['product_count'])): ?>

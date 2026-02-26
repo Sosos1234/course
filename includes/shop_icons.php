@@ -1,42 +1,34 @@
 <?php
 /**
- * Картинки магазинов — тематические изображения (Unsplash, бесплатные)
+ * Картинки магазинов — локальные SVG (всегда работают, без интернета)
  */
 function getShopImage(array $shop): string {
-    $images = [
-        'супермаркет' => 'https://images.unsplash.com/photo-1604718764654-c3e2b4a2a1a1?w=600',
-        'европа' => 'https://images.unsplash.com/photo-1604718764654-c3e2b4a2a1a1?w=600',
-        'гипермаркет детских' => 'https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=600',
-        'детских товаров' => 'https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=600',
-        'бытовой техники' => 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600',
-        'электроники' => 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600',
-        'фитнес' => 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600',
-        'танцев' => 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600',
-        'школа танцев' => 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600',
-        'одежд' => 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=600',
-        'обув' => 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600',
-        'кафе' => 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600',
-        'уют' => 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600',
-        'аптек' => 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600',
-        'здоровье' => 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600',
-    ];
-    $name = mb_strtolower($shop['name'] ?? '');
-    foreach ($images as $keyword => $url) {
-        if (mb_strpos($name, $keyword) !== false) {
-            return $url;
-        }
-    }
     $cat = (int)($shop['category_id'] ?? 1);
-    $fallback = [
-        1 => 'https://images.unsplash.com/photo-1604718764654-c3e2b4a2a1a1?w=600',
-        2 => 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=600',
-        3 => 'https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=600',
-        4 => 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600',
-        5 => 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=600',
-        6 => 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600',
-        7 => 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600',
+    $name = htmlspecialchars(mb_substr($shop['name'] ?? 'Магазин', 0, 20));
+    
+    $gradients = [
+        1 => ['#2d8b6f', '#1e6b54'],
+        2 => ['#6c5ce7', '#5b4cdb'],
+        3 => ['#fd79a8', '#e06897'],
+        4 => ['#00b894', '#009975'],
+        5 => ['#0984e3', '#0873c9'],
+        6 => ['#e17055', '#c75f44'],
+        7 => ['#636e72', '#4d5659'],
     ];
-    return $fallback[$cat] ?? $fallback[1];
+    [$c1, $c2] = $gradients[$cat] ?? $gradients[5];
+    
+    $svg = '<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" width="400" height="250" viewBox="0 0 400 250">'
+        . '<defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:' . $c1 . '"/><stop offset="100%" style="stop-color:' . $c2 . '"/></linearGradient></defs>'
+        . '<rect width="400" height="250" fill="url(#g)"/>'
+        . '<rect x="120" y="70" width="160" height="80" rx="8" fill="rgba(255,255,255,0.2)"/>'
+        . '<text x="200" y="115" font-family="Arial,sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">' . $name . '</text>'
+        . '</svg>';
+    
+    return 'data:image/svg+xml,' . rawurlencode($svg);
+}
+
+function getShopImageFallback(array $shop): string {
+    return getShopImage($shop);
 }
 
 function getShopIcon(int $categoryId): string {

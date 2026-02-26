@@ -33,7 +33,7 @@
             <?php foreach ($results['shops'] as $s): ?>
             <a href="index.php?page=shop&id=<?= (int)$s['id'] ?>" class="result-card">
                 <span class="result-type">Магазин</span>
-                <span class="result-card-icon"><img src="<?= htmlspecialchars(getShopImage($s)) ?>" alt="" loading="lazy" onerror="this.src='https://picsum.photos/seed/<?= (int)($s['id'] ?? 0) ?>r/400/200'"></span>
+                <span class="result-card-icon"><img src="<?= htmlspecialchars(getShopImage($s)) ?>" alt=""></span>
                 <strong><?= htmlspecialchars($s['name']) ?></strong>
                 <span class="result-meta"><?= htmlspecialchars($s['floor_name']) ?><?= $s['pavilion'] ? ' · ' . htmlspecialchars($s['pavilion']) : '' ?></span>
             </a>
