@@ -32,8 +32,7 @@ class Shop
             $params[] = $floorId;
         }
 
-        $sql .= " ORDER BY f.number, s.name LIMIT ?";
-        $params[] = $limit;
+        $sql .= " ORDER BY f.number, s.name LIMIT " . (int) $limit;
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);

@@ -68,9 +68,9 @@ class SearchEngine
                     JOIN floors f ON s.floor_id = f.id
                     WHERE MATCH(s.name, s.description, s.fulltext) AGAINST(? IN BOOLEAN MODE)
                     ORDER BY relevance DESC, s.name
-                    LIMIT ?";
+                    LIMIT " . (int) $limit;
             $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([$expression, $expression, $limit]);
+            $stmt->execute([$expression, $expression]);
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             return $this->searchShopsFallback($expression, $limit);
@@ -91,12 +91,11 @@ class SearchEngine
             $params[] = '%' . $w . '%';
             $params[] = '%' . $w . '%';
         }
-        $params[] = $limit;
 
         $sql = "SELECT s.id, s.name, s.slug, s.description, s.pavilion, f.name AS floor_name, f.number AS floor_number
                 FROM shops s JOIN floors f ON s.floor_id = f.id
                 WHERE " . implode(' OR ', $conditions) . "
-                ORDER BY s.name LIMIT ?";
+                ORDER BY s.name LIMIT " . (int) $limit;
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -112,9 +111,9 @@ class SearchEngine
                     JOIN shops s ON p.shop_id = s.id
                     WHERE MATCH(p.name, p.category, p.fulltext) AGAINST(? IN BOOLEAN MODE)
                     ORDER BY relevance DESC, p.name
-                    LIMIT ?";
+                    LIMIT " . (int) $limit;
             $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([$expression, $expression, $limit]);
+            $stmt->execute([$expression, $expression]);
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             return $this->searchProductsFallback($expression, $limit);
@@ -135,12 +134,10 @@ class SearchEngine
             $params[] = '%' . $w . '%';
             $params[] = '%' . $w . '%';
         }
-        $params[] = $limit;
-
         $sql = "SELECT p.id, p.name, p.category, p.price, p.shop_id, s.name AS shop_name, s.slug AS shop_slug
                 FROM products p JOIN shops s ON p.shop_id = s.id
                 WHERE " . implode(' OR ', $conditions) . "
-                ORDER BY p.name LIMIT ?";
+                ORDER BY p.name LIMIT " . (int) $limit;
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
