@@ -35,13 +35,13 @@ class DataImporter
         }
 
         try {
-            $this->pdo->beginTransaction();
             if ($clearExisting) {
                 $this->pdo->exec('SET FOREIGN_KEY_CHECKS = 0');
                 $this->pdo->exec('TRUNCATE TABLE products');
                 $this->pdo->exec('TRUNCATE TABLE shops');
                 $this->pdo->exec('SET FOREIGN_KEY_CHECKS = 1');
             }
+            $this->pdo->beginTransaction();
             $importedShops = 0;
             $importedProducts = 0;
 
@@ -103,7 +103,9 @@ class DataImporter
                 'errors' => $errors,
             ];
         } catch (\Exception $e) {
-            $this->pdo->rollBack();
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
             return ['success' => false, 'errors' => [$e->getMessage()]];
         }
     }
