@@ -26,8 +26,9 @@
             <?php else: ?>
             <?php foreach ($shops as $s): ?>
             <a href="index.php?page=shop&id=<?= (int)$s['id'] ?>" class="shop-card">
+                <span class="floor-badge"><?= htmlspecialchars($s['floor_name']) ?></span>
                 <h3><?= htmlspecialchars($s['name']) ?></h3>
-                <p class="shop-meta"><?= htmlspecialchars($s['category_name']) ?> · <?= htmlspecialchars($s['floor_name']) ?><?= $s['pavilion'] ? ' · ' . htmlspecialchars($s['pavilion']) : '' ?></p>
+                <p class="shop-meta"><?= htmlspecialchars($s['category_name']) ?><?= $s['pavilion'] ? ' · ' . htmlspecialchars($s['pavilion']) : '' ?></p>
                 <?php if (!empty($s['description'])): ?>
                 <p class="shop-desc"><?= htmlspecialchars(mb_substr($s['description'], 0, 100)) ?>...</p>
                 <?php endif; ?>

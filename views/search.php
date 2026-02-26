@@ -15,32 +15,42 @@
         <?php $total = count($results['shops'] ?? []) + count($results['products'] ?? []); ?>
 
         <?php if ($total === 0): ?>
-        <p class="empty">По запросу «<?= htmlspecialchars($query) ?>» ничего не найдено.</p>
-        <p>Попробуйте:</p>
-        <ul class="category-suggestions">
+        <div class="empty">
+            <p>По запросу «<strong><?= htmlspecialchars($query) ?></strong>» ничего не найдено.</p>
+            <p style="margin-top:1rem">Попробуйте:</p>
+        </div>
+        <div class="category-suggestions" style="margin-top:1rem">
             <?php foreach (array_slice($categories ?? [], 0, 5) as $c): ?>
-            <li><a href="index.php?page=shops&category=<?= (int)$c['id'] ?>"><?= htmlspecialchars($c['name']) ?></a></li>
+            <a href="index.php?page=shops&category=<?= (int)$c['id'] ?>"><?= htmlspecialchars($c['name']) ?></a>
             <?php endforeach; ?>
-        </ul>
+        </div>
         <?php else: ?>
         <p class="results-count">Найдено: <?= $total ?></p>
 
         <?php if (!empty($results['shops'])): ?>
         <h2>Магазины</h2>
-        <ul class="result-list shops">
+        <div class="result-grid">
             <?php foreach ($results['shops'] as $s): ?>
-            <li><a href="index.php?page=shop&id=<?= (int)$s['id'] ?>"><?= htmlspecialchars($s['name']) ?></a> — <?= htmlspecialchars($s['floor_name']) ?><?= $s['pavilion'] ? ' · ' . htmlspecialchars($s['pavilion']) : '' ?></li>
+            <a href="index.php?page=shop&id=<?= (int)$s['id'] ?>" class="result-card">
+                <span class="result-type">Магазин</span>
+                <strong><?= htmlspecialchars($s['name']) ?></strong>
+                <span class="result-meta"><?= htmlspecialchars($s['floor_name']) ?><?= $s['pavilion'] ? ' · ' . htmlspecialchars($s['pavilion']) : '' ?></span>
+            </a>
             <?php endforeach; ?>
-        </ul>
+        </div>
         <?php endif; ?>
 
         <?php if (!empty($results['products'])): ?>
         <h2>Товары и услуги</h2>
-        <ul class="result-list products">
+        <div class="result-grid">
             <?php foreach ($results['products'] as $p): ?>
-            <li><a href="index.php?page=shop&id=<?= (int)$p['shop_id'] ?>"><?= htmlspecialchars($p['name']) ?></a> в <?= htmlspecialchars($p['shop_name']) ?><?= $p['price'] ? ' — ' . number_format((float)$p['price'], 2) . ' ₽' : '' ?></li>
+            <a href="index.php?page=shop&id=<?= (int)$p['shop_id'] ?>" class="result-card">
+                <span class="result-type">Товар</span>
+                <strong><?= htmlspecialchars($p['name']) ?></strong>
+                <span class="result-meta"><?= htmlspecialchars($p['shop_name']) ?><?= $p['price'] ? ' · ' . number_format((float)$p['price'], 2) . ' ₽' : '' ?></span>
+            </a>
             <?php endforeach; ?>
-        </ul>
+        </div>
         <?php endif; ?>
 
         <?php endif; ?>
