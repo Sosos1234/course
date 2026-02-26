@@ -14,8 +14,9 @@ class DataImporter
 
     /**
      * Загрузка данных из JSON-файла
+     * @param bool $clearExisting Удалить существующие магазины и товары перед импортом
      */
-    public function loadData(string $filePath): array
+    public function loadData(string $filePath, bool $clearExisting = false): array
     {
         $errors = [];
         if (!file_exists($filePath)) {
@@ -35,6 +36,12 @@ class DataImporter
 
         try {
             $this->pdo->beginTransaction();
+            if ($clearExisting) {
+                $this->pdo->exec('SET FOREIGN_KEY_CHECKS = 0');
+                $this->pdo->exec('TRUNCATE TABLE products');
+                $this->pdo->exec('TRUNCATE TABLE shops');
+                $this->pdo->exec('SET FOREIGN_KEY_CHECKS = 1');
+            }
             $importedShops = 0;
             $importedProducts = 0;
 

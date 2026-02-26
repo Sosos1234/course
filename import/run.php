@@ -8,7 +8,8 @@ if (session_status() === PHP_SESSION_NONE) {
 require __DIR__ . '/../bootstrap.php';
 
 $file = __DIR__ . '/data.json';
-$result = $app['importer']->loadData($file);
+$clear = isset($_GET['clear']) && $_GET['clear'] === '1';
+$result = $app['importer']->loadData($file, $clear);
 
 header('Content-Type: text/html; charset=utf-8');
 ?>
@@ -37,6 +38,9 @@ header('Content-Type: text/html; charset=utf-8');
     <p>Предупреждения:</p>
     <ul><?php foreach ($result['errors'] as $e): ?><li><?= htmlspecialchars($e) ?></li><?php endforeach; ?></ul>
     <?php endif; ?>
-    <p><a href="index.php">На главную</a></p>
+    <p>
+        <a href="index.php?page=import&clear=1">Перезаписать и импортировать заново</a> —
+        <a href="index.php">На главную</a>
+    </p>
 </body>
 </html>
