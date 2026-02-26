@@ -27,7 +27,7 @@ $siteConfig = $config ?? [];
                 <input type="hidden" name="page" value="search">
                 <div class="search-wrap">
                     <span class="search-icon">⌕</span>
-                    <input type="search" name="q" placeholder="Магазины, товары, услуги..." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>" class="search-input">
+                    <input type="search" name="q" placeholder="Магазины и товары..." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>" class="search-input">
                 </div>
                 <button type="submit" class="search-btn">Найти</button>
             </form>
