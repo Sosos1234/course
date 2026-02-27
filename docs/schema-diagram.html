@@ -8,23 +8,23 @@
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Arial, sans-serif; padding: 2rem; background: #e8e8e8; margin: 0; }
         h1 { text-align: center; color: #1a365d; margin-bottom: 1.5rem; font-size: 1.5em; }
-        .diagram { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); max-width: 920px; margin: 0 auto; position: relative; }
-        .schema-wrap { position: relative; width: 620px; height: 500px; margin: 0 auto; }
-        .table-box { position: absolute; border: 2px solid #2c5282; border-radius: 8px; overflow: hidden; width: 180px; }
-        .table-header { background: #2c5282; color: #fff; padding: 0.5rem 0.8rem; font-weight: 700; font-size: 1em; }
-        .table-body { padding: 0.5rem 0.8rem; font-family: 'Consolas', monospace; font-size: 0.85em; background: #fafafa; }
-        .field { padding: 0.15rem 0; color: #2d3748; }
+        .diagram { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); max-width: 720px; margin: 0 auto; position: relative; }
+        .schema-wrap { position: relative; width: 680px; height: 540px; margin: 0 auto; }
+        .table-box { position: absolute; border: 2px solid #2c5282; border-radius: 8px; overflow: hidden; width: 160px; z-index: 2; background: #fff; }
+        .table-header { background: #2c5282; color: #fff; padding: 0.5rem 0.7rem; font-weight: 700; font-size: 0.95em; }
+        .table-body { padding: 0.5rem 0.7rem; font-family: 'Consolas', monospace; font-size: 0.8em; background: #fafafa; }
+        .field { padding: 0.12rem 0; color: #2d3748; }
         .field.pk { color: #c53030; font-weight: 600; }
         .field.fk { color: #2b6cb0; font-weight: 500; }
-        #t-cat { left: 20px;  top: 20px; }
-        #t-floors { left: 380px; top: 20px; }
-        #t-shops { left: 200px; top: 200px; width: 200px; }
-        #t-products { left: 20px;  top: 380px; }
-        #t-news { left: 380px; top: 380px; }
-        svg.arrows { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
-        .arrow { stroke: #4a5568; stroke-width: 2; fill: none; }
-        .arrow-end { fill: #4a5568; }
-        .arrow-label { font-size: 11px; fill: #4a5568; font-family: Arial, sans-serif; }
+        #t-cat { left: 40px;   top: 30px; }
+        #t-floors { left: 480px; top: 30px; }
+        #t-shops { left: 260px; top: 220px; width: 160px; }
+        #t-products { left: 40px;  top: 430px; }
+        #t-news { left: 480px; top: 430px; }
+        svg.arrows { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .arrow { stroke: #5a6778; stroke-width: 1.5; fill: none; }
+        .arrow-end { fill: #5a6778; }
+        .arrow-label { font-size: 10px; fill: #4a5568; font-family: Arial, sans-serif; }
         @media print { body { background: #fff; } .diagram { box-shadow: none; } }
     </style>
 </head>
@@ -33,24 +33,24 @@
 
     <div class="diagram">
         <div class="schema-wrap">
-            <svg class="arrows" width="620" height="500" viewBox="0 0 620 500">
+            <svg class="arrows" width="680" height="540" viewBox="0 0 680 540">
                 <defs>
-                    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                        <polygon class="arrow-end" points="0 0, 10 3.5, 0 7"/>
+                    <marker id="arr" markerWidth="8" markerHeight="5.5" refX="7" refY="2.75" orient="auto">
+                        <polygon class="arrow-end" points="0 0, 8 2.75, 0 5.5"/>
                     </marker>
                 </defs>
-                <!-- categories → shops (category_id) -->
-                <path class="arrow" marker-end="url(#arr)" d="M 110 135 L 110 168 L 250 168 L 250 200"/>
-                <text class="arrow-label" x="120" y="155">category_id</text>
-                <!-- floors → shops (floor_id) -->
-                <path class="arrow" marker-end="url(#arr)" d="M 470 135 L 470 168 L 350 168 L 350 200"/>
-                <text class="arrow-label" x="395" y="155">floor_id</text>
-                <!-- shops → products (shop_id) -->
-                <path class="arrow" marker-end="url(#arr)" d="M 270 330 L 270 355 L 110 355 L 110 380"/>
-                <text class="arrow-label" x="175" y="348">shop_id</text>
-                <!-- shops → news (shop_id) -->
-                <path class="arrow" marker-end="url(#arr)" d="M 330 330 L 330 355 L 470 355 L 470 380"/>
-                <text class="arrow-label" x="380" y="348">shop_id</text>
+                <!-- categories → shops: вниз, вбок по коридору, вниз к shops -->
+                <path class="arrow" marker-end="url(#arr)" d="M 120 138 L 120 175 L 270 175 L 270 218"/>
+                <text class="arrow-label" x="135" y="158">category_id</text>
+                <!-- floors → shops -->
+                <path class="arrow" marker-end="url(#arr)" d="M 560 138 L 560 175 L 410 175 L 410 218"/>
+                <text class="arrow-label" x="455" y="158">floor_id</text>
+                <!-- shops → products: вниз, влево по коридору, вниз к products -->
+                <path class="arrow" marker-end="url(#arr)" d="M 295 328 L 295 375 L 120 375 L 120 428"/>
+                <text class="arrow-label" x="195" y="355">shop_id</text>
+                <!-- shops → news -->
+                <path class="arrow" marker-end="url(#arr)" d="M 385 328 L 385 375 L 560 375 L 560 428"/>
+                <text class="arrow-label" x="455" y="355">shop_id</text>
             </svg>
 
             <div id="t-cat" class="table-box">
