@@ -90,4 +90,5 @@ php -S localhost:8000
 - **`docs/diagrams-render.html`** — HTML с диаграммами (Mermaid)
 - **`docs/schema-diagram.html`** — схема данных SQL (открыть в браузере → скриншот)
 - **`docs/schema-er.drawio`** — ER-диаграмма БД (Draw.io → экспорт в PNG/VSDX)
-- **`docs/chertezh-struktura-proekta.html`** — чертёж «Структура проекта» (ГОСТ, печать в PDF)
+- **`docs/chertezh-struktura-proekta.html`** — чертёж «Структура проекта» (ГОСТ)
+- **`docs/chertezh-algoritm.html`** — чертёж «Алгоритм поиска» (блок-схема со стрелками)
