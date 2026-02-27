@@ -1,0 +1,43 @@
+<mxfile host="app.diagrams.net" modified="2026-02-26T00:00:00.000Z" etag="schema-er" type="device">
+  <diagram name="ER-схема БД" id="schema-er">
+    <mxGraphModel dx="800" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <!-- categories -->
+        <mxCell id="cat" value="categories&#xa;─────────────&#xa;id (PK)&#xa;name&#xa;slug&#xa;sort_order" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="80" y="80" width="140" height="100" as="geometry"/>
+        </mxCell>
+        <!-- floors -->
+        <mxCell id="fl" value="floors&#xa;─────────────&#xa;id (PK)&#xa;number&#xa;name&#xa;description" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="320" y="80" width="140" height="100" as="geometry"/>
+        </mxCell>
+        <!-- shops -->
+        <mxCell id="sh" value="shops&#xa;─────────────&#xa;id (PK)&#xa;name, slug, desc&#xa;category_id (FK)&#xa;floor_id (FK)&#xa;pavilion, contact" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="180" y="260" width="180" height="120" as="geometry"/>
+        </mxCell>
+        <!-- products -->
+        <mxCell id="prod" value="products&#xa;─────────────&#xa;id (PK)&#xa;shop_id (FK)&#xa;name, category&#xa;price, fulltext" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="80" y="460" width="140" height="100" as="geometry"/>
+        </mxCell>
+        <!-- news -->
+        <mxCell id="nw" value="news&#xa;─────────────&#xa;id (PK)&#xa;shop_id (FK)&#xa;title, content&#xa;published_at" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="320" y="460" width="140" height="100" as="geometry"/>
+        </mxCell>
+        <!-- Arrows -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;entryX=0.25;entryY=0;" edge="1" parent="1" source="cat" target="sh">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;entryX=0.75;entryY=0;" edge="1" parent="1" source="fl" target="sh">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.25;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="sh" target="prod">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.75;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="sh" target="nw">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Схема данных SQL — ТРЦ Европа 27</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; padding: 2rem; background: #e8e8e8; margin: 0; }
+        h1 { text-align: center; color: #1a365d; margin-bottom: 1.5rem; font-size: 1.5em; }
+        .diagram { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); max-width: 900px; margin: 0 auto; }
+        .tables { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; align-items: flex-start; }
+        .table-box { border: 2px solid #2c5282; border-radius: 8px; overflow: hidden; min-width: 200px; flex: 1 1 220px; max-width: 280px; }
+        .table-header { background: #2c5282; color: #fff; padding: 0.6rem 1rem; font-weight: 700; font-size: 1.05em; }
+        .table-body { padding: 0.7rem 1rem; font-family: 'Consolas', 'Courier New', monospace; font-size: 0.9em; background: #fafafa; }
+        .field { padding: 0.25rem 0; color: #2d3748; }
+        .field.pk { color: #c53030; font-weight: 600; }
+        .field.fk { color: #2b6cb0; font-weight: 500; }
+        .rel-box { background: #edf2f7; border: 1px dashed #718096; border-radius: 6px; padding: 1rem; margin-top: 1.5rem; font-size: 0.9em; }
+        .rel-box strong { display: block; margin-bottom: 0.5rem; color: #4a5568; }
+        @media print { body { background: #fff; padding: 0.5rem; } .diagram { box-shadow: none; } }
+    </style>
+</head>
+<body>
+    <h1>Схема данных БД — ТРЦ «Европа 27»</h1>
+
+    <div class="diagram">
+        <div class="tables">
+            <div class="table-box">
+                <div class="table-header">categories</div>
+                <div class="table-body">
+                    <div class="field pk">▪ id (PK)</div>
+                    <div class="field">▪ name VARCHAR(100)</div>
+                    <div class="field">▪ slug VARCHAR(100)</div>
+                    <div class="field">▪ sort_order INT</div>
+                </div>
+            </div>
+            <div class="table-box">
+                <div class="table-header">floors</div>
+                <div class="table-body">
+                    <div class="field pk">▪ id (PK)</div>
+                    <div class="field">▪ number INT</div>
+                    <div class="field">▪ name VARCHAR(50)</div>
+                    <div class="field">▪ description VARCHAR(255)</div>
+                </div>
+            </div>
+            <div class="table-box">
+                <div class="table-header">shops</div>
+                <div class="table-body">
+                    <div class="field pk">▪ id (PK)</div>
+                    <div class="field">▪ name, slug, description</div>
+                    <div class="field fk">▪ category_id → categories</div>
+                    <div class="field fk">▪ floor_id → floors</div>
+                    <div class="field">▪ pavilion, contact</div>
+                    <div class="field">▪ fulltext, created_at</div>
+                </div>
+            </div>
+            <div class="table-box">
+                <div class="table-header">products</div>
+                <div class="table-body">
+                    <div class="field pk">▪ id (PK)</div>
+                    <div class="field fk">▪ shop_id → shops</div>
+                    <div class="field">▪ name VARCHAR(255)</div>
+                    <div class="field">▪ category, price</div>
+                    <div class="field">▪ fulltext, created_at</div>
+                </div>
+            </div>
+            <div class="table-box">
+                <div class="table-header">news</div>
+                <div class="table-body">
+                    <div class="field pk">▪ id (PK)</div>
+                    <div class="field fk">▪ shop_id → shops (NULL)</div>
+                    <div class="field">▪ title, content</div>
+                    <div class="field">▪ published_at, created_at</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="rel-box">
+            <strong>Связи:</strong>
+            categories (1) ──→ (N) shops &nbsp;|&nbsp; floors (1) ──→ (N) shops &nbsp;|&nbsp; shops (1) ──→ (N) products &nbsp;|&nbsp; shops (1) ──→ (N) news
+        </div>
+
+        <p style="text-align:center; margin-top:1rem; color:#718096; font-size:0.85em;">
+            MySQL / MariaDB · ТРЦ «Европа 27»
+        </p>
+    </div>
+
+    <p style="text-align:center; margin-top:1rem; color:#a0aec0; font-size:0.8em;">
+        Откройте <b>docs/schema-diagram.html</b> в браузере → скриншот (Win+Shift+S) или фото экрана
+    </p>
+</body>
+</html>
