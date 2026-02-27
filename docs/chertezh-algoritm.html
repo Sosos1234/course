@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Чертеж — Алгоритм поиска ТРЦ «Европа 27»</title>
     <style>
-        @page { size: A4 landscape; margin: 10mm; }
+        @page { size: A4 landscape; }
         * { box-sizing: border-box; }
         body { font-family: Arial, sans-serif; margin: 0; padding: 12px; background: #f0f0f0; font-size: 10pt; }
-        .sheet { position: relative; width: 900px; max-width: 100%; margin: 0 auto; background: #fff; border: 1px solid #000; padding-bottom: 70px; }
+        .sheet { position: relative; width: 900px; margin: 0 auto; background: #fff; border: 1px solid #000; padding-bottom: 70px; }
         .flow-title { text-align: center; font-weight: bold; font-size: 12pt; padding: 10px; }
-        .flow-wrap { position: relative; width: 900px; max-width: 100%; margin: 0 auto; }
-        .flow-wrap svg { display: block; width: 100%; height: auto; }
+        .flow-wrap { width: 900px; margin: 0 auto; }
         .title-block { position: absolute; bottom: 12px; right: 12px; width: 380px; border: 1px solid #000; font-size: 8pt; }
         .title-block table { width: 100%; border-collapse: collapse; }
         .title-block td { border: 1px solid #000; padding: 2px 4px; }
@@ -24,83 +23,110 @@
         <div class="flow-title">Алгоритм поиска на информационном ресурсе ТРЦ «Европа 27»</div>
 
         <div class="flow-wrap">
-            <svg width="900" height="450" viewBox="0 0 900 450" preserveAspectRatio="xMidYMid meet" font-family="Arial" font-size="10">
+            <svg width="900" height="420" viewBox="0 0 900 420" font-family="Arial" font-size="10">
                 <defs>
                     <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
                         <polygon points="0 0, 8 3, 0 6" fill="#000"/>
                     </marker>
                 </defs>
-                <!-- Стрелки -->
-                <path d="M 120 35 L 120 55" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-                <path d="M 120 85 L 120 105" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-                <path d="M 120 135 L 120 155" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-                <path d="M 120 185 L 120 205" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-                <path d="M 120 235 L 120 258 L 120 280" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-                <path d="M 80 280 L 80 320 L 330 320 L 330 355" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-                <path d="M 160 280 L 160 300 L 160 320 L 180 320" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-                <path d="M 330 395 L 330 415 L 330 435" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-                <path d="M 330 475 L 330 420" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-                <path d="M 530 45 L 530 75 L 530 105" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-                <path d="M 530 145 L 530 175 L 530 205" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-                <path d="M 530 255 L 530 285 L 530 310" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-                <path d="M 490 310 L 450 310 L 450 355" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-                <path d="M 570 310 L 650 310 L 650 355" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-                <path d="M 650 395 L 650 420 L 650 435" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-                <path d="M 650 475 L 650 450 L 120 450 L 120 305" stroke="#000" stroke-width="1.5" fill="none" stroke-dasharray="4 2"/>
-                <path d="M 650 475 L 650 450" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
 
+                <!-- === ФИГУРЫ (рисуем первыми, стрелки поверх) === -->
                 <!-- Колонка 1 -->
-                <ellipse cx="120" cy="25" rx="50" ry="18" fill="#fff" stroke="#000"/>
-                <text x="120" y="29" text-anchor="middle">Начало</text>
-                <path d="M 95 60 L 145 60 L 135 90 L 85 90 Z" fill="#fff" stroke="#000"/>
-                <text x="110" y="78" text-anchor="middle">Вход на сайт</text>
-                <rect x="80" y="115" width="80" height="40" fill="#fff" stroke="#000"/>
-                <text x="120" y="135" text-anchor="middle">Выбор раздела</text>
-                <path d="M 120 175, 160 195, 120 215, 80 195 Z" fill="#fff" stroke="#000"/>
-                <text x="120" y="198" text-anchor="middle">Поиск?</text>
-                <rect x="60" y="300" width="100" height="40" fill="#fff" stroke="#000"/>
-                <text x="110" y="318" text-anchor="middle">Ввод запроса</text>
-                <text x="110" y="332" text-anchor="middle">(Да)</text>
-                <circle cx="330" cy="335" r="12" fill="#fff" stroke="#000"/>
-                <text x="330" y="339" text-anchor="middle">1</text>
-                <rect x="60" y="370" width="100" height="35" fill="#fff" stroke="#000"/>
-                <text x="110" y="390" text-anchor="middle">Каталог (Нет)</text>
+                <ellipse cx="150" cy="28" rx="55" ry="20" fill="#fff" stroke="#000"/>
+                <text x="150" y="33" text-anchor="middle">Начало</text>
+
+                <path d="M 120 55 L 180 55 L 170 82 L 130 82 Z" fill="#fff" stroke="#000"/>
+                <text x="150" y="72" text-anchor="middle">Вход на сайт</text>
+
+                <rect x="100" y="95" width="100" height="36" fill="#fff" stroke="#000"/>
+                <text x="150" y="115" text-anchor="middle">Выбор раздела</text>
+
+                <path d="M 150 142, 190 162, 150 182, 110 162 Z" fill="#fff" stroke="#000"/>
+                <text x="150" y="165" text-anchor="middle">Поиск?</text>
+
+                <rect x="80" y="245" width="140" height="32" fill="#fff" stroke="#000"/>
+                <text x="150" y="262" text-anchor="middle">Ввод запроса (Да)</text>
+
+                <rect x="80" y="300" width="140" height="32" fill="#fff" stroke="#000"/>
+                <text x="150" y="317" text-anchor="middle">Каталог (Нет)</text>
+
+                <circle cx="420" cy="260" r="14" fill="#fff" stroke="#000"/>
+                <text x="420" y="264" text-anchor="middle">1</text>
 
                 <!-- Колонка 2 -->
-                <circle cx="530" cy="55" r="12" fill="#fff" stroke="#000"/>
-                <text x="530" y="59" text-anchor="middle">1</text>
-                <rect x="470" y="115" width="120" height="40" fill="#fff" stroke="#000"/>
-                <text x="530" y="133" text-anchor="middle">SearchEngine,</text>
-                <text x="530" y="147" text-anchor="middle">MorphyProcessor</text>
-                <rect x="470" y="225" width="120" height="40" fill="#fff" stroke="#000"/>
-                <text x="530" y="245" text-anchor="middle">Full-Text поиск</text>
-                <path d="M 530 285, 570 305, 530 325, 490 305 Z" fill="#fff" stroke="#000"/>
-                <text x="530" y="312" text-anchor="middle">Найдено?</text>
-                <rect x="400" y="355" width="100" height="40" fill="#fff" stroke="#000"/>
-                <text x="450" y="378" text-anchor="middle">Результаты</text>
-                <rect x="600" y="355" width="100" height="40" fill="#fff" stroke="#000"/>
-                <text x="650" y="378" text-anchor="middle">Подсказки</text>
-                <circle cx="650" cy="415" r="12" fill="#fff" stroke="#000"/>
-                <text x="650" y="419" text-anchor="middle">5</text>
+                <rect x="330" y="100" width="180" height="40" fill="#fff" stroke="#000"/>
+                <text x="420" y="120" text-anchor="middle">SearchEngine, MorphyProcessor</text>
+
+                <rect x="350" y="165" width="140" height="36" fill="#fff" stroke="#000"/>
+                <text x="420" y="185" text-anchor="middle">Full-Text поиск</text>
+
+                <path d="M 420 218, 460 238, 420 258, 380 238 Z" fill="#fff" stroke="#000"/>
+                <text x="420" y="241" text-anchor="middle">Найдено?</text>
+
+                <rect x="310" y="290" width="100" height="36" fill="#fff" stroke="#000"/>
+                <text x="360" y="310" text-anchor="middle">Результаты</text>
+
+                <rect x="430" y="290" width="100" height="36" fill="#fff" stroke="#000"/>
+                <text x="480" y="310" text-anchor="middle">Подсказки</text>
+
+                <circle cx="480" cy="355" r="14" fill="#fff" stroke="#000"/>
+                <text x="480" y="359" text-anchor="middle">5</text>
 
                 <!-- Колонка 3 -->
-                <circle cx="750" cy="55" r="12" fill="#fff" stroke="#000"/>
-                <text x="750" y="59" text-anchor="middle">2</text>
-                <rect x="690" y="95" width="120" height="50" fill="#fff" stroke="#000"/>
-                <text x="750" y="115" text-anchor="middle">Карточка магазина,</text>
-                <text x="750" y="132" text-anchor="middle">товары, контакты</text>
-                <path d="M 750 165, 790 185, 750 205, 710 185 Z" fill="#fff" stroke="#000"/>
-                <text x="750" y="192" text-anchor="middle">Конец?</text>
-                <ellipse cx="750" cy="250" rx="50" ry="18" fill="#fff" stroke="#000"/>
-                <text x="750" y="254" text-anchor="middle">Конец</text>
-                <rect x="690" y="290" width="120" height="35" fill="#fff" stroke="#000"/>
-                <text x="750" y="310" text-anchor="middle">Возврат (Нет)</text>
-                <circle cx="750" cy="335" r="12" fill="#fff" stroke="#000"/>
-                <text x="750" y="339" text-anchor="middle">5</text>
+                <circle cx="680" cy="100" r="14" fill="#fff" stroke="#000"/>
+                <text x="680" y="104" text-anchor="middle">2</text>
 
-                <!-- Связи 2 и 5 -->
-                <path d="M 450 375 L 500 375 L 500 75 L 748 75" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-                <path d="M 750 335 L 750 355 L 120 355 L 120 258" stroke="#000" stroke-width="1.5" fill="none" stroke-dasharray="4 2"/>
+                <rect x="600" y="135" width="160" height="44" fill="#fff" stroke="#000"/>
+                <text x="680" y="155" text-anchor="middle">Карточка магазина</text>
+
+                <path d="M 680 198, 720 218, 680 238, 640 218 Z" fill="#fff" stroke="#000"/>
+                <text x="680" y="221" text-anchor="middle">Конец?</text>
+
+                <ellipse cx="680" cy="275" rx="55" ry="20" fill="#fff" stroke="#000"/>
+                <text x="680" y="280" text-anchor="middle">Конец</text>
+
+                <rect x="600" y="310" width="160" height="32" fill="#fff" stroke="#000"/>
+                <text x="680" y="328" text-anchor="middle">Возврат (Нет)</text>
+
+                <!-- === СТРЕЛКИ (соединяют центры границ фигур) === -->
+                <!-- Начало -> Вход -->
+                <path d="M 150 48 L 150 53" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Вход -> Выбор -->
+                <path d="M 150 82 L 150 93" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Выбор -> Поиск? -->
+                <path d="M 150 131 L 150 140" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Поиск? -> Ввод (Да, вниз) -->
+                <path d="M 150 182 L 150 243" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Поиск? -> Каталог (Нет, влево-вниз) -->
+                <path d="M 110 162 L 80 162 L 80 284 L 150 284" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Ввод -> Коннектор 1 -->
+                <path d="M 220 261 L 406 261" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Коннектор 1 -> SearchEngine -->
+                <path d="M 420 246 L 420 118" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- SearchEngine -> Full-Text -->
+                <path d="M 420 140 L 420 163" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Full-Text -> Найдено? -->
+                <path d="M 420 201 L 420 216" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Найдено? Да -> Результаты -->
+                <path d="M 420 258 L 420 288" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Найдено? Нет -> Подсказки -->
+                <path d="M 460 238 L 480 278 L 480 288" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Результаты -> Коннектор 2 -->
+                <path d="M 360 326 L 360 100 L 680 100" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Каталог -> Коннектор 2 -->
+                <path d="M 220 316 L 220 130 L 660 130 L 680 100" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Коннектор 2 -> Карточка -->
+                <path d="M 680 100 L 680 133" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Карточка -> Конец? -->
+                <path d="M 680 179 L 680 196" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Конец? Да -> Конец -->
+                <path d="M 680 238 L 680 263" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Конец? Нет -> Возврат -->
+                <path d="M 640 218 L 600 218 L 600 298 L 680 298" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Возврат -> Коннектор 5 -->
+                <path d="M 680 326 L 680 355 L 494 355" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Коннектор 5 -> назад к Выбор раздела -->
+                <path d="M 480 341 L 480 131 L 150 131" stroke="#000" stroke-width="1.5" fill="none" stroke-dasharray="5 3" marker-end="url(#arr)"/>
             </svg>
         </div>
 
