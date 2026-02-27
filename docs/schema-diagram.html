@@ -8,77 +8,97 @@
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Arial, sans-serif; padding: 2rem; background: #e8e8e8; margin: 0; }
         h1 { text-align: center; color: #1a365d; margin-bottom: 1.5rem; font-size: 1.5em; }
-        .diagram { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); max-width: 900px; margin: 0 auto; }
-        .tables { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; align-items: flex-start; }
-        .table-box { border: 2px solid #2c5282; border-radius: 8px; overflow: hidden; min-width: 200px; flex: 1 1 220px; max-width: 280px; }
-        .table-header { background: #2c5282; color: #fff; padding: 0.6rem 1rem; font-weight: 700; font-size: 1.05em; }
-        .table-body { padding: 0.7rem 1rem; font-family: 'Consolas', 'Courier New', monospace; font-size: 0.9em; background: #fafafa; }
-        .field { padding: 0.25rem 0; color: #2d3748; }
+        .diagram { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); max-width: 920px; margin: 0 auto; position: relative; }
+        .schema-wrap { position: relative; width: 620px; height: 500px; margin: 0 auto; }
+        .table-box { position: absolute; border: 2px solid #2c5282; border-radius: 8px; overflow: hidden; width: 180px; }
+        .table-header { background: #2c5282; color: #fff; padding: 0.5rem 0.8rem; font-weight: 700; font-size: 1em; }
+        .table-body { padding: 0.5rem 0.8rem; font-family: 'Consolas', monospace; font-size: 0.85em; background: #fafafa; }
+        .field { padding: 0.15rem 0; color: #2d3748; }
         .field.pk { color: #c53030; font-weight: 600; }
         .field.fk { color: #2b6cb0; font-weight: 500; }
-        .rel-box { background: #edf2f7; border: 1px dashed #718096; border-radius: 6px; padding: 1rem; margin-top: 1.5rem; font-size: 0.9em; }
-        .rel-box strong { display: block; margin-bottom: 0.5rem; color: #4a5568; }
-        @media print { body { background: #fff; padding: 0.5rem; } .diagram { box-shadow: none; } }
+        #t-cat { left: 20px;  top: 20px; }
+        #t-floors { left: 380px; top: 20px; }
+        #t-shops { left: 200px; top: 200px; width: 200px; }
+        #t-products { left: 20px;  top: 380px; }
+        #t-news { left: 380px; top: 380px; }
+        svg.arrows { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        .arrow { stroke: #4a5568; stroke-width: 2; fill: none; }
+        .arrow-end { fill: #4a5568; }
+        .arrow-label { font-size: 11px; fill: #4a5568; font-family: Arial, sans-serif; }
+        @media print { body { background: #fff; } .diagram { box-shadow: none; } }
     </style>
 </head>
 <body>
     <h1>Схема данных БД — ТРЦ «Европа 27»</h1>
 
     <div class="diagram">
-        <div class="tables">
-            <div class="table-box">
+        <div class="schema-wrap">
+            <svg class="arrows" width="620" height="500" viewBox="0 0 620 500">
+                <defs>
+                    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon class="arrow-end" points="0 0, 10 3.5, 0 7"/>
+                    </marker>
+                </defs>
+                <!-- categories → shops (category_id) -->
+                <path class="arrow" marker-end="url(#arr)" d="M 110 135 L 110 168 L 250 168 L 250 200"/>
+                <text class="arrow-label" x="120" y="155">category_id</text>
+                <!-- floors → shops (floor_id) -->
+                <path class="arrow" marker-end="url(#arr)" d="M 470 135 L 470 168 L 350 168 L 350 200"/>
+                <text class="arrow-label" x="395" y="155">floor_id</text>
+                <!-- shops → products (shop_id) -->
+                <path class="arrow" marker-end="url(#arr)" d="M 270 330 L 270 355 L 110 355 L 110 380"/>
+                <text class="arrow-label" x="175" y="348">shop_id</text>
+                <!-- shops → news (shop_id) -->
+                <path class="arrow" marker-end="url(#arr)" d="M 330 330 L 330 355 L 470 355 L 470 380"/>
+                <text class="arrow-label" x="380" y="348">shop_id</text>
+            </svg>
+
+            <div id="t-cat" class="table-box">
                 <div class="table-header">categories</div>
                 <div class="table-body">
                     <div class="field pk">▪ id (PK)</div>
-                    <div class="field">▪ name VARCHAR(100)</div>
-                    <div class="field">▪ slug VARCHAR(100)</div>
-                    <div class="field">▪ sort_order INT</div>
+                    <div class="field">▪ name</div>
+                    <div class="field">▪ slug</div>
+                    <div class="field">▪ sort_order</div>
                 </div>
             </div>
-            <div class="table-box">
+            <div id="t-floors" class="table-box">
                 <div class="table-header">floors</div>
                 <div class="table-body">
                     <div class="field pk">▪ id (PK)</div>
-                    <div class="field">▪ number INT</div>
-                    <div class="field">▪ name VARCHAR(50)</div>
-                    <div class="field">▪ description VARCHAR(255)</div>
+                    <div class="field">▪ number</div>
+                    <div class="field">▪ name</div>
+                    <div class="field">▪ description</div>
                 </div>
             </div>
-            <div class="table-box">
+            <div id="t-shops" class="table-box">
                 <div class="table-header">shops</div>
                 <div class="table-body">
                     <div class="field pk">▪ id (PK)</div>
-                    <div class="field">▪ name, slug, description</div>
-                    <div class="field fk">▪ category_id → categories</div>
-                    <div class="field fk">▪ floor_id → floors</div>
+                    <div class="field">▪ name, slug</div>
+                    <div class="field fk">▪ category_id</div>
+                    <div class="field fk">▪ floor_id</div>
                     <div class="field">▪ pavilion, contact</div>
-                    <div class="field">▪ fulltext, created_at</div>
                 </div>
             </div>
-            <div class="table-box">
+            <div id="t-products" class="table-box">
                 <div class="table-header">products</div>
                 <div class="table-body">
                     <div class="field pk">▪ id (PK)</div>
-                    <div class="field fk">▪ shop_id → shops</div>
-                    <div class="field">▪ name VARCHAR(255)</div>
+                    <div class="field fk">▪ shop_id</div>
+                    <div class="field">▪ name</div>
                     <div class="field">▪ category, price</div>
-                    <div class="field">▪ fulltext, created_at</div>
                 </div>
             </div>
-            <div class="table-box">
+            <div id="t-news" class="table-box">
                 <div class="table-header">news</div>
                 <div class="table-body">
                     <div class="field pk">▪ id (PK)</div>
-                    <div class="field fk">▪ shop_id → shops (NULL)</div>
-                    <div class="field">▪ title, content</div>
-                    <div class="field">▪ published_at, created_at</div>
+                    <div class="field fk">▪ shop_id</div>
+                    <div class="field">▪ title</div>
+                    <div class="field">▪ content</div>
                 </div>
             </div>
-        </div>
-
-        <div class="rel-box">
-            <strong>Связи:</strong>
-            categories (1) ──→ (N) shops &nbsp;|&nbsp; floors (1) ──→ (N) shops &nbsp;|&nbsp; shops (1) ──→ (N) products &nbsp;|&nbsp; shops (1) ──→ (N) news
         </div>
 
         <p style="text-align:center; margin-top:1rem; color:#718096; font-size:0.85em;">
@@ -87,7 +107,7 @@
     </div>
 
     <p style="text-align:center; margin-top:1rem; color:#a0aec0; font-size:0.8em;">
-        Откройте <b>docs/schema-diagram.html</b> в браузере → скриншот (Win+Shift+S) или фото экрана
+        Откройте в браузере → скриншот (Win+Shift+S) или фото
     </p>
 </body>
 </html>
