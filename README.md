@@ -85,6 +85,6 @@ php -S localhost:8000
 ## Документация и схемы
 
 - **`docs/visio-schemas.md`** — инструкция для создания схем в Microsoft Visio
-- **`docs/structure-site.drawio`** — схема структуры сайта (Draw.io). Открыть на app.diagrams.net → экспорт в VSDX (Visio)
+- **`docs/structure-site.drawio`** — структура сайта (страницы). **`docs/structure-files.drawio`** — структура файлов проекта. Открыть на app.diagrams.net → экспорт в VSDX (Visio)
 - **`docs/structure-site-visio.md`** — пошаговая инструкция для схемы «Структура сайта» в Visio
 - **`docs/diagrams-render.html`** — HTML с диаграммами (Mermaid), можно сохранить как изображения
