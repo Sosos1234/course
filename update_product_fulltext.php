@@ -18,7 +18,7 @@ while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
         $row['shop_name'] ?? '',
         $row['shop_description'] ?? '',
     ]);
-    $up = $pdo->prepare("UPDATE products SET fulltext = ? WHERE id = ?");
+    $up = $pdo->prepare("UPDATE products SET products.`fulltext` = ? WHERE products.id = ?");
     $up->execute([$fulltext, $row['id']]);
     $updated += $up->rowCount();
 }
