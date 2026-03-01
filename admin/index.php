@@ -62,12 +62,15 @@ if (!$isAuth) {
 </header>
 <main class="main">
     <div class="container" style="padding:2rem 0;">
-        <h1>Управление</h1>
-        <ul>
+        <h1>Режим администратора</h1>
+        <p class="admin-desc">Управление контентом информационного ресурса</p>
+        <ul class="admin-links">
             <li><a href="../index.php?page=import">Импорт данных из JSON</a></li>
-            <li><a href="../index.php?page=shops">Просмотр магазинов</a></li>
+            <li><a href="../index.php?page=shops">Магазины</a></li>
+            <li><a href="../index.php?page=products">Товары и услуги</a></li>
+            <li><a href="../index.php?page=news">Новости</a></li>
         </ul>
-        <p><a href="../index.php">На главную</a></p>
+        <p><a href="../index.php">На сайт (режим посетителя)</a></p>
     </div>
 </main>
 </body>

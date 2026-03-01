@@ -12,7 +12,7 @@ $pdo = $app['pdo'];
 $page = $_GET['page'] ?? 'home';
 $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
-$allowedPages = ['home', 'shops', 'shop', 'search', 'news', 'about', 'contacts', 'floors', 'admin', 'import'];
+$allowedPages = ['home', 'shops', 'shop', 'products', 'search', 'news', 'about', 'contacts', 'floors', 'admin', 'import'];
 if (!in_array($page, $allowedPages, true)) {
     $page = 'home';
 }
@@ -110,6 +110,24 @@ switch ($page) {
         foreach ($app['floor']->getAll() as $f) {
             $pageData['shopsByFloor'][$f['id']] = $app['shop']->getList(null, $f['id']);
         }
+        break;
+
+    case 'products':
+        $shopId = isset($_GET['shop']) ? (int) $_GET['shop'] : null;
+        $productCategory = isset($_GET['product_category']) ? trim($_GET['product_category']) : null;
+        $floorId = isset($_GET['floor']) ? (int) $_GET['floor'] : null;
+        $pageData = [
+            'page' => 'products',
+            'pageTitle' => 'Товары и услуги',
+            'products' => $app['product']->getList($shopId, $productCategory ?: null, $floorId),
+            'productCategories' => $app['product']->getProductCategories(),
+            'shops' => $app['shop']->getList(null, null, 200),
+            'floors' => $app['floor']->getAll(),
+            'config' => $config['site'],
+            'filterShop' => $shopId,
+            'filterProductCategory' => $productCategory,
+            'filterFloor' => $floorId,
+        ];
         break;
 
     case 'search':

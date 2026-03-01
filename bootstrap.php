@@ -30,6 +30,7 @@ return [
     'shop' => new \Europa27\Shop($pdo),
     'category' => new \Europa27\Category($pdo),
     'floor' => new \Europa27\Floor($pdo),
+    'product' => new \Europa27\Product($pdo),
     'search' => new \Europa27\SearchEngine($pdo, $morphy),
     'importer' => new \Europa27\DataImporter($pdo, $morphy),
     'news' => new \Europa27\News($pdo),

@@ -1,0 +1,55 @@
+<?php
+/**
+ * Модель товаров и услуг
+ */
+
+namespace Europa27;
+
+class Product
+{
+    public function __construct(
+        private \PDO $pdo
+    ) {}
+
+    /**
+     * Список всех товаров с информацией о магазине и этаже
+     */
+    public function getList(?int $shopId = null, ?string $category = null, ?int $floorId = null, int $limit = 200): array
+    {
+        $sql = "SELECT p.id, p.name, p.category, p.price, p.shop_id,
+                       s.name AS shop_name, s.pavilion, f.name AS floor_name, f.number AS floor_number
+                FROM products p
+                JOIN shops s ON p.shop_id = s.id
+                JOIN floors f ON s.floor_id = f.id
+                WHERE 1=1";
+        $params = [];
+
+        if ($shopId) {
+            $sql .= " AND p.shop_id = ?";
+            $params[] = $shopId;
+        }
+        if ($category !== null && $category !== '') {
+            $sql .= " AND p.category = ?";
+            $params[] = $category;
+        }
+        if ($floorId) {
+            $sql .= " AND s.floor_id = ?";
+            $params[] = $floorId;
+        }
+
+        $sql .= " ORDER BY f.number, s.name, p.category, p.name LIMIT " . (int) $limit;
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Уникальные категории товаров (для фильтра)
+     */
+    public function getProductCategories(): array
+    {
+        $stmt = $this->pdo->query("SELECT DISTINCT category FROM products WHERE category IS NOT NULL AND category != '' ORDER BY category");
+        return $stmt->fetchAll(\PDO::FETCH_COLUMN);
+    }
+}

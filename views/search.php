@@ -48,7 +48,7 @@
             <a href="index.php?page=shop&id=<?= (int)$p['shop_id'] ?>" class="result-card">
                 <span class="result-type">Товар</span>
                 <strong><?= htmlspecialchars($p['name']) ?></strong>
-                <span class="result-meta"><?= htmlspecialchars($p['shop_name']) ?><?= $p['price'] ? ' · ' . number_format((float)$p['price'], 2) . ' ₽' : '' ?></span>
+                <span class="result-meta"><?= htmlspecialchars($p['shop_name']) ?><?= !empty($p['floor_name']) ? ' · ' . htmlspecialchars($p['floor_name']) : '' ?><?= !empty($p['pavilion']) ? ' · ' . htmlspecialchars($p['pavilion']) : '' ?><?= $p['price'] ? ' · ' . number_format((float)$p['price'], 2) . ' ₽' : '' ?></span>
             </a>
             <?php endforeach; ?>
         </div>

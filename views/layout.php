@@ -34,10 +34,15 @@ $siteConfig = $config ?? [];
             <nav class="nav">
                 <a href="index.php" class="nav-link <?= $page === 'home' ? 'active' : '' ?>">Главная</a>
                 <a href="index.php?page=shops" class="nav-link <?= $page === 'shops' ? 'active' : '' ?>">Магазины</a>
+                <a href="index.php?page=products" class="nav-link <?= $page === 'products' ? 'active' : '' ?>">Товары</a>
                 <a href="index.php?page=floors" class="nav-link <?= $page === 'floors' ? 'active' : '' ?>">Навигация</a>
                 <a href="index.php?page=news" class="nav-link <?= $page === 'news' ? 'active' : '' ?>">Новости</a>
                 <a href="index.php?page=about" class="nav-link <?= $page === 'about' ? 'active' : '' ?>">О центре</a>
                 <a href="index.php?page=contacts" class="nav-link <?= $page === 'contacts' ? 'active' : '' ?>">Контакты</a>
+                <?php if (!empty($_SESSION['admin'])): ?>
+                <a href="index.php?page=admin" class="nav-link nav-admin">Админ</a>
+                <a href="index.php?page=admin&logout=1" class="nav-link">Выход</a>
+                <?php endif; ?>
             </nav>
         </div>
     </header>
@@ -63,9 +68,11 @@ $siteConfig = $config ?? [];
                 </div>
                 <div class="footer-links">
                     <a href="index.php?page=shops">Магазины</a>
+                    <a href="index.php?page=products">Товары</a>
                     <a href="index.php?page=news">Новости</a>
                     <a href="index.php?page=about">О центре</a>
                     <a href="index.php?page=contacts">Контакты</a>
+                    <a href="index.php?page=admin">Админ</a>
                 </div>
                 <div class="footer-info">
                     <p><span class="footer-label">Режим работы:</span> <?= htmlspecialchars($siteConfig['work_hours'] ?? '9:00 - 22:00') ?></p>
