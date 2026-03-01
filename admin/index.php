@@ -29,7 +29,7 @@ if (!$isAuth) {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Вход в админ-панель</title>
-        <link rel="stylesheet" href="../assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/style.css">
         <link rel="stylesheet" href="admin/admin.css">
     </head>
     <body class="admin-body">
@@ -68,8 +68,8 @@ if (!$isAuth) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Админ-панель — ТРЦ Европа 27</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="admin/admin.css">
 </head>
 <body class="admin-body">
 <header class="admin-header">
