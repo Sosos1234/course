@@ -2,12 +2,8 @@
 /**
  * Админ: управление товарами (список, добавление, редактирование, удаление)
  */
-if (session_status() === PHP_SESSION_NONE) session_start();
+require __DIR__ . '/../includes/admin_auth.php';
 $app = require __DIR__ . '/../bootstrap.php';
-if (($_SESSION['admin'] ?? false) !== true) {
-    header('Location: index.php?page=admin');
-    exit;
-}
 
 $product = $app['product'];
 $shop = $app['shop'];

@@ -2,15 +2,8 @@
 /**
  * Скрипт импорта данных из JSON (только для администратора)
  */
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-require __DIR__ . '/../bootstrap.php';
-
-if (($_SESSION['admin'] ?? false) !== true) {
-    header('Location: index.php?page=admin');
-    exit;
-}
+require __DIR__ . '/../includes/admin_auth.php';
+$app = require __DIR__ . '/../bootstrap.php';
 
 $file = __DIR__ . '/data.json';
 $clear = isset($_GET['clear']) && $_GET['clear'] === '1';

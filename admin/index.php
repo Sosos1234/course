@@ -12,8 +12,19 @@ $config = $app['config'];
 $isAuth = ($_SESSION['admin'] ?? false) === true;
 if (!$isAuth && ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['auth_login']))) {
     if ($_POST['auth_login'] === ($config['admin']['login'] ?? '') && $_POST['password'] === ($config['admin']['password'] ?? '')) {
+        session_regenerate_id(true);
         $_SESSION['admin'] = true;
+        $_SESSION['admin_login_at'] = time();
         $isAuth = true;
+    }
+}
+$loginTimeout = 60 * 60;
+if ($isAuth) {
+    if (isset($_SESSION['admin_login_at']) && (time() - $_SESSION['admin_login_at']) > $loginTimeout) {
+        unset($_SESSION['admin'], $_SESSION['admin_login_at']);
+        $isAuth = false;
+    } else {
+        $_SESSION['admin_login_at'] = time();
     }
 }
 if (isset($_GET['logout'])) {
@@ -103,10 +114,10 @@ if (!$isAuth) {
                 <h3>Товары и услуги</h3>
                 <p>Добавить, изменить, удалить товары</p>
             </a>
-            <a href="index.php?page=news" class="admin-card">
+            <a href="index.php?page=admin-news" class="admin-card">
                 <span class="admin-card-icon">📰</span>
                 <h3>Новости</h3>
-                <p>Акции и анонсы</p>
+                <p>Добавить, изменить, удалить новости и акции</p>
             </a>
         </div>
         <div class="admin-footer-actions">

@@ -3,7 +3,13 @@
  * Точка входа. Маршрутизация запросов.
  */
 
-session_start();
+$adminPages = ['admin', 'admin-shops', 'admin-products', 'admin-news', 'import'];
+if (in_array($_GET['page'] ?? '', $adminPages)) {
+    session_set_cookie_params(['lifetime' => 0]); // Сессия до закрытия браузера
+}
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $app = require __DIR__ . '/bootstrap.php';
 $config = $app['config'];
@@ -12,7 +18,7 @@ $pdo = $app['pdo'];
 $page = $_GET['page'] ?? 'home';
 $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
-$allowedPages = ['home', 'shops', 'shop', 'products', 'search', 'news', 'about', 'contacts', 'floors', 'admin', 'import', 'admin-shops', 'admin-products'];
+$allowedPages = ['home', 'shops', 'shop', 'products', 'search', 'news', 'about', 'contacts', 'floors', 'admin', 'import', 'admin-shops', 'admin-products', 'admin-news'];
 if (!in_array($page, $allowedPages, true)) {
     $page = 'home';
 }
@@ -158,12 +164,16 @@ switch ($page) {
         require __DIR__ . '/admin/products.php';
         exit;
 
+    case 'admin-news':
+        require __DIR__ . '/admin/news.php';
+        exit;
+
     case 'import':
         require __DIR__ . '/import/run.php';
         exit;
 }
 
-if (!in_array($page, ['admin', 'import', 'admin-shops', 'admin-products'], true)) {
+if (!in_array($page, ['admin', 'import', 'admin-shops', 'admin-products', 'admin-news'], true)) {
     extract($pageData);
     require __DIR__ . '/views/layout.php';
 }

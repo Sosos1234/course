@@ -17,6 +17,7 @@
         <nav class="admin-nav">
             <a href="index.php?page=admin-shops">Магазины</a>
             <a href="index.php?page=admin-products">Товары</a>
+            <a href="index.php?page=admin-news">Новости</a>
             <a href="index.php?page=admin">Дашборд</a>
             <a href="index.php?page=admin&logout=1" class="admin-logout">Выход</a>
         </nav>

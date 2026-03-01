@@ -43,4 +43,40 @@ class News
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $row ?: null;
     }
+
+    public function create(array $data): int
+    {
+        $stmt = $this->pdo->prepare("
+            INSERT INTO news (title, content, shop_id, published_at)
+            VALUES (?, ?, ?, ?)
+        ");
+        $stmt->execute([
+            $data['title'] ?? '',
+            $data['content'] ?? null,
+            !empty($data['shop_id']) ? (int) $data['shop_id'] : null,
+            $data['published_at'] ?? date('Y-m-d H:i:s'),
+        ]);
+        return (int) $this->pdo->lastInsertId();
+    }
+
+    public function update(int $id, array $data): bool
+    {
+        $stmt = $this->pdo->prepare("
+            UPDATE news SET title = ?, content = ?, shop_id = ?, published_at = ?
+            WHERE id = ?
+        ");
+        return $stmt->execute([
+            $data['title'] ?? '',
+            $data['content'] ?? null,
+            !empty($data['shop_id']) ? (int) $data['shop_id'] : null,
+            $data['published_at'] ?? date('Y-m-d H:i:s'),
+            $id,
+        ]);
+    }
+
+    public function delete(int $id): bool
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM news WHERE id = ?");
+        return $stmt->execute([$id]);
+    }
 }
