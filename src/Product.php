@@ -52,4 +52,61 @@ class Product
         $stmt = $this->pdo->query("SELECT DISTINCT category FROM products WHERE category IS NOT NULL AND category != '' ORDER BY category");
         return $stmt->fetchAll(\PDO::FETCH_COLUMN);
     }
+
+    /**
+     * Получить товар по ID
+     */
+    public function getById(int $id): ?array
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM products WHERE id = ?");
+        $stmt->execute([$id]);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $row ?: null;
+    }
+
+    /**
+     * Создать товар
+     */
+    public function create(int $shopId, array $data, string $fulltext = ''): int
+    {
+        $stmt = $this->pdo->prepare("
+            INSERT INTO products (shop_id, name, category, price, `fulltext`)
+            VALUES (?, ?, ?, ?, ?)
+        ");
+        $stmt->execute([
+            $shopId,
+            $data['name'] ?? '',
+            $data['category'] ?? null,
+            !empty($data['price']) ? (float) $data['price'] : null,
+            $fulltext,
+        ]);
+        return (int) $this->pdo->lastInsertId();
+    }
+
+    /**
+     * Обновить товар
+     */
+    public function update(int $id, array $data, string $fulltext = ''): bool
+    {
+        $stmt = $this->pdo->prepare("
+            UPDATE products SET name = ?, category = ?, price = ?, `fulltext` = ?
+            WHERE id = ?
+        ");
+        return $stmt->execute([
+            $data['name'] ?? '',
+            $data['category'] ?? null,
+            !empty($data['price']) ? (float) $data['price'] : null,
+            $fulltext,
+            $id,
+        ]);
+    }
+
+    /**
+     * Удалить товар
+     */
+    public function delete(int $id): bool
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM products WHERE id = ?");
+        return $stmt->execute([$id]);
+    }
 }

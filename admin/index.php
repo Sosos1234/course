@@ -93,15 +93,15 @@ if (!$isAuth) {
                 <h3>Импорт данных</h3>
                 <p>Загрузка магазинов и товаров из JSON</p>
             </a>
-            <a href="index.php?page=shops" class="admin-card">
+            <a href="index.php?page=admin-shops" class="admin-card">
                 <span class="admin-card-icon">🏪</span>
                 <h3>Магазины</h3>
-                <p>Каталог арендаторов</p>
+                <p>Добавить, изменить, удалить магазины</p>
             </a>
-            <a href="index.php?page=products" class="admin-card">
+            <a href="index.php?page=admin-products" class="admin-card">
                 <span class="admin-card-icon">📦</span>
                 <h3>Товары и услуги</h3>
-                <p>Полный список с фильтрами</p>
+                <p>Добавить, изменить, удалить товары</p>
             </a>
             <a href="index.php?page=news" class="admin-card">
                 <span class="admin-card-icon">📰</span>

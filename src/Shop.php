@@ -89,7 +89,7 @@ class Shop
      */
     public function updateFullText(int $shopId, string $fulltext): void
     {
-        $stmt = $this->pdo->prepare("UPDATE shops SET fulltext = ? WHERE id = ?");
+        $stmt = $this->pdo->prepare("UPDATE shops SET `fulltext` = ? WHERE id = ?");
         $stmt->execute([$fulltext, $shopId]);
     }
 
@@ -102,5 +102,58 @@ class Shop
         $name = preg_replace('/[^a-zа-яё0-9\s-]/u', '', $name);
         $name = preg_replace('/[\s-]+/', '-', trim($name));
         return $name ?: 'shop-' . uniqid();
+    }
+
+    /**
+     * Создать магазин
+     */
+    public function create(array $data, string $fulltext = ''): int
+    {
+        $slug = self::slugify($data['name'] ?? '') . '-' . substr(uniqid(), -6);
+        $stmt = $this->pdo->prepare("
+            INSERT INTO shops (name, slug, description, category_id, floor_id, pavilion, contact, `fulltext`)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ");
+        $stmt->execute([
+            $data['name'] ?? '',
+            $slug,
+            $data['description'] ?? null,
+            (int) ($data['category_id'] ?? 0),
+            (int) ($data['floor_id'] ?? 0),
+            $data['pavilion'] ?? null,
+            $data['contact'] ?? null,
+            $fulltext,
+        ]);
+        return (int) $this->pdo->lastInsertId();
+    }
+
+    /**
+     * Обновить магазин
+     */
+    public function update(int $id, array $data, string $fulltext = ''): bool
+    {
+        $stmt = $this->pdo->prepare("
+            UPDATE shops SET name = ?, description = ?, category_id = ?, floor_id = ?, pavilion = ?, contact = ?, `fulltext` = ?
+            WHERE id = ?
+        ");
+        return $stmt->execute([
+            $data['name'] ?? '',
+            $data['description'] ?? null,
+            (int) ($data['category_id'] ?? 0),
+            (int) ($data['floor_id'] ?? 0),
+            $data['pavilion'] ?? null,
+            $data['contact'] ?? null,
+            $fulltext,
+            $id,
+        ]);
+    }
+
+    /**
+     * Удалить магазин
+     */
+    public function delete(int $id): bool
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM shops WHERE id = ?");
+        return $stmt->execute([$id]);
     }
 }

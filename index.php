@@ -12,7 +12,7 @@ $pdo = $app['pdo'];
 $page = $_GET['page'] ?? 'home';
 $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
-$allowedPages = ['home', 'shops', 'shop', 'products', 'search', 'news', 'about', 'contacts', 'floors', 'admin', 'import'];
+$allowedPages = ['home', 'shops', 'shop', 'products', 'search', 'news', 'about', 'contacts', 'floors', 'admin', 'import', 'admin-shops', 'admin-products'];
 if (!in_array($page, $allowedPages, true)) {
     $page = 'home';
 }
@@ -150,12 +150,20 @@ switch ($page) {
         require __DIR__ . '/admin/index.php';
         exit;
 
+    case 'admin-shops':
+        require __DIR__ . '/admin/shops.php';
+        exit;
+
+    case 'admin-products':
+        require __DIR__ . '/admin/products.php';
+        exit;
+
     case 'import':
         require __DIR__ . '/import/run.php';
         exit;
 }
 
-if ($page !== 'admin' && $page !== 'import') {
+if (!in_array($page, ['admin', 'import', 'admin-shops', 'admin-products'], true)) {
     extract($pageData);
     require __DIR__ . '/views/layout.php';
 }
