@@ -40,7 +40,7 @@
                     <?php endif; ?>
                 </div>
                 <h3><?= htmlspecialchars($s['name']) ?></h3>
-                <p class="shop-floor"><?= htmlspecialchars($s['category_name']) ?><?= $s['pavilion'] ? ' · ' . htmlspecialchars($s['pavilion']) : '' ?></p>
+                <p class="shop-floor"><?= htmlspecialchars($s['category_name']) ?><?= !empty($s['floor_name']) ? ' · ' . htmlspecialchars($s['floor_name']) : '' ?><?= !empty($s['pavilion']) ? ' · секция ' . htmlspecialchars($s['pavilion']) : '' ?></p>
             </a>
             <?php endforeach; ?>
         </div>

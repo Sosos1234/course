@@ -20,7 +20,7 @@
                 <a href="index.php?page=shop&id=<?= (int)$s['id'] ?>" class="floor-shop-card">
                     <span class="floor-shop-icon"><img src="<?= htmlspecialchars(getShopImage($s)) ?>" alt=""></span>
                     <strong><?= htmlspecialchars($s['name']) ?></strong>
-                    <span><?= htmlspecialchars($s['category_name']) ?><?= $s['pavilion'] ? ' · ' . htmlspecialchars($s['pavilion']) : '' ?></span>
+                    <span><?= htmlspecialchars($s['category_name']) ?><?= !empty($s['pavilion']) ? ' · секция ' . htmlspecialchars($s['pavilion']) : '' ?></span>
                 </a>
                 <?php endforeach; ?>
             </div>

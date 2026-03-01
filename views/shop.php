@@ -20,10 +20,7 @@ $hasTabs = count($productsByCategory) > 1;
                         <h1><?= htmlspecialchars($shop['name']) ?></h1>
                         <div class="shop-badges">
                             <span class="badge badge-category"><?= htmlspecialchars($shop['category_name']) ?></span>
-                            <span class="badge badge-floor"><?= htmlspecialchars($shop['floor_name']) ?></span>
-                            <?php if (!empty($shop['pavilion'])): ?>
-                            <span class="badge badge-pavilion">Павильон <?= htmlspecialchars($shop['pavilion']) ?></span>
-                            <?php endif; ?>
+                            <span class="badge badge-floor"><?= htmlspecialchars($shop['floor_name']) ?><?= !empty($shop['pavilion']) ? ' · секция ' . htmlspecialchars($shop['pavilion']) : '' ?></span>
                         </div>
                 <?php if (!empty($shop['contact'])): ?>
                         <p class="shop-contact">

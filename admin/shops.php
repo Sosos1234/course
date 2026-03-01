@@ -123,7 +123,7 @@ require __DIR__ . '/admin_header.php';
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label for="pavilion">Павильон</label>
+                <label for="pavilion">Секция / зона (на этаже)</label>
                 <input type="text" id="pavilion" name="pavilion" value="<?= htmlspecialchars($shopData['pavilion'] ?? $_POST['pavilion'] ?? '') ?>">
             </div>
             <div class="form-group">
@@ -160,7 +160,7 @@ require __DIR__ . '/admin_header.php';
                 <th>Название</th>
                 <th>Категория</th>
                 <th>Этаж</th>
-                <th>Павильон</th>
+                <th>Секция</th>
                 <th>Товаров</th>
                 <th>Действия</th>
             </tr>

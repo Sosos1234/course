@@ -34,7 +34,7 @@
                     <?php endif; ?>
                 </div>
                 <h3><?= htmlspecialchars($s['name']) ?></h3>
-                <p class="shop-meta"><?= htmlspecialchars($s['category_name']) ?><?= $s['pavilion'] ? ' · ' . htmlspecialchars($s['pavilion']) : '' ?></p>
+                <p class="shop-meta"><?= htmlspecialchars($s['category_name']) ?><?= !empty($s['floor_name']) ? ' · ' . htmlspecialchars($s['floor_name']) : '' ?><?= !empty($s['pavilion']) ? ' · секция ' . htmlspecialchars($s['pavilion']) : '' ?></p>
                 <?php if (!empty($s['description'])): ?>
                 <p class="shop-desc"><?= htmlspecialchars(mb_substr($s['description'], 0, 100)) ?>...</p>
                 <?php endif; ?>
