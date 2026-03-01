@@ -78,6 +78,8 @@ class DataImporter
                     $pFulltext = $this->morphy->prepareFullText([
                         $pName,
                         $product['category'] ?? '',
+                        $shopData['name'] ?? '',
+                        $shopData['description'] ?? '',
                     ]);
 
                     $stmt = $this->pdo->prepare("

@@ -2,7 +2,9 @@
 /**
  * Административная панель
  */
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 $app = require __DIR__ . '/../bootstrap.php';
 $config = $app['config'];
 
@@ -25,18 +27,32 @@ if (!$isAuth) {
     <html lang="ru">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Вход в админ-панель</title>
         <link rel="stylesheet" href="../assets/css/style.css">
+        <link rel="stylesheet" href="admin/admin.css">
     </head>
-    <body>
-    <div class="container" style="max-width:400px;margin:4rem auto;">
-        <h1>Вход</h1>
-        <form method="post">
-            <p><label>Логин: <input type="text" name="auth_login" value="<?= htmlspecialchars($_POST['auth_login'] ?? '') ?>" required></label></p>
-            <p><label>Пароль: <input type="password" name="password" required></label></p>
-            <p><button type="submit" class="btn btn-primary">Войти</button></p>
-        </form>
-        <p><a href="../index.php">На главную</a></p>
+    <body class="admin-body">
+    <div class="admin-login-wrap">
+        <div class="admin-login-card">
+            <div class="admin-login-header">
+                <span class="admin-login-icon">🔐</span>
+                <h1>Вход в админ-панель</h1>
+                <p>ТРЦ «Европа 27»</p>
+            </div>
+            <form method="post" class="admin-login-form">
+                <div class="form-group">
+                    <label for="auth_login">Логин</label>
+                    <input type="text" id="auth_login" name="auth_login" value="<?= htmlspecialchars($_POST['auth_login'] ?? '') ?>" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Войти</button>
+            </form>
+            <a href="index.php" class="admin-login-back">← На главную</a>
+        </div>
     </div>
     </body>
     </html>
@@ -50,27 +66,54 @@ if (!$isAuth) {
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Админ-панель</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Админ-панель — ТРЦ Европа 27</title>
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="admin.css">
 </head>
-<body>
-<header class="header">
-    <div class="container">
-        <a href="?page=admin" class="logo">Админ-панель ТРЦ Европа 27</a>
-        <a href="?page=admin&logout=1" style="color:#fff;margin-left:auto;">Выход</a>
+<body class="admin-body">
+<header class="admin-header">
+    <div class="admin-header-inner">
+        <a href="index.php?page=admin" class="admin-logo">
+            <span class="admin-logo-icon">⚙️</span>
+            <span>Админ-панель ТРЦ Европа 27</span>
+        </a>
+        <a href="index.php?page=admin&logout=1" class="admin-logout">Выход</a>
     </div>
 </header>
-<main class="main">
-    <div class="container" style="padding:2rem 0;">
-        <h1>Режим администратора</h1>
-        <p class="admin-desc">Управление контентом информационного ресурса</p>
-        <ul class="admin-links">
-            <li><a href="../index.php?page=import">Импорт данных из JSON</a></li>
-            <li><a href="../index.php?page=shops">Магазины</a></li>
-            <li><a href="../index.php?page=products">Товары и услуги</a></li>
-            <li><a href="../index.php?page=news">Новости</a></li>
-        </ul>
-        <p><a href="../index.php">На сайт (режим посетителя)</a></p>
+<main class="admin-main">
+    <div class="admin-container">
+        <div class="admin-welcome">
+            <h1>Режим администратора</h1>
+            <p>Управление контентом информационного ресурса</p>
+        </div>
+        <div class="admin-dashboard">
+            <a href="index.php?page=import" class="admin-card admin-card-accent">
+                <span class="admin-card-icon">📥</span>
+                <h3>Импорт данных</h3>
+                <p>Загрузка магазинов и товаров из JSON</p>
+            </a>
+            <a href="index.php?page=shops" class="admin-card">
+                <span class="admin-card-icon">🏪</span>
+                <h3>Магазины</h3>
+                <p>Каталог арендаторов</p>
+            </a>
+            <a href="index.php?page=products" class="admin-card">
+                <span class="admin-card-icon">📦</span>
+                <h3>Товары и услуги</h3>
+                <p>Полный список с фильтрами</p>
+            </a>
+            <a href="index.php?page=news" class="admin-card">
+                <span class="admin-card-icon">📰</span>
+                <h3>Новости</h3>
+                <p>Акции и анонсы</p>
+            </a>
+        </div>
+        <div class="admin-footer-actions">
+            <a href="index.php" class="admin-view-site">
+                <span>👁</span> На сайт (режим посетителя)
+            </a>
+        </div>
     </div>
 </main>
 </body>

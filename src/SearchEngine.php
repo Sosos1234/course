@@ -1,6 +1,6 @@
 <?php
 /**
- * Поисковый движок с поддержкой морфологии
+ * Поисковый движок с поддержкой морфологии и синонимов
  */
 
 namespace Europa27;
@@ -8,6 +8,30 @@ namespace Europa27;
 class SearchEngine
 {
     private const STOP_WORDS = ['и', 'в', 'на', 'с', 'по', 'для', 'из', 'о', 'от', 'к', 'до', 'или', 'а', 'но', 'как', 'что', 'это', 'где', 'когда', 'купить', 'найти', 'есть'];
+
+    /** Синонимы и родственные слова для поиска по смыслу (ключ — начало слова) */
+    private const SEMANTIC_MAP = [
+        'ед' => ['продукт', 'кулинария', 'бакалея', 'выпечка', 'салат', 'полуфабрикат'],
+        'сладк' => ['кондитер', 'выпечка', 'печень', 'торт', 'шоколад', 'десерт'],
+        'молоч' => ['молоко', 'кефир', 'йогурт', 'творог', 'сыр'],
+        'хлеб' => ['булк', 'батон', 'выпечка'],
+        'мяс' => ['птиц', 'колбас', 'полуфабрикат'],
+        'овощ' => ['фрукт', 'зелен'],
+        'игр' => ['игрушк', 'развлека', 'детск'],
+        'детск' => ['малыш', 'школьн', 'ребен'],
+        'ребен' => ['детск', 'малыш', 'игрушк'],
+        'телефон' => ['смартфон', 'ремонт', 'экран', 'электроник'],
+        'смартфон' => ['телефон', 'ремонт', 'экран'],
+        'ноутбук' => ['планшет', 'компьютер', 'электроник'],
+        'телевизор' => ['телек', 'бытов', 'техник'],
+        'холодильник' => ['холод', 'бытов', 'техник'],
+        'спорт' => ['фитнес', 'тренажер', 'тренировк', 'аэробик', 'йог'],
+        'фитнес' => ['тренажер', 'тренировк', 'спорт'],
+        'танц' => ['хореограф', 'зумб', 'балет'],
+        'одежд' => ['обув', 'плать', 'куртк', 'джинс'],
+        'обув' => ['кроссовк', 'туфл', 'ботинок'],
+        'техник' => ['телевизор', 'холодильник', 'смартфон', 'бытов', 'электроник'],
+    ];
 
     public function __construct(
         private \PDO $pdo,
@@ -32,7 +56,8 @@ class SearchEngine
             $lemmas = [mb_strtolower($query)];
         }
 
-        $booleanExpr = $this->buildBooleanExpression($lemmas);
+        $expandedLemmas = $this->expandWithSemantics($lemmas);
+        $booleanExpr = $this->buildBooleanExpression($expandedLemmas);
         if (empty(trim($booleanExpr))) {
             return ['shops' => [], 'products' => []];
         }
@@ -46,16 +71,39 @@ class SearchEngine
         ];
     }
 
+    /**
+     * Расширяет леммы синонимами и родственными словами для поиска по смыслу
+     */
+    private function expandWithSemantics(array $lemmas): array
+    {
+        $expanded = [];
+        foreach ($lemmas as $lemma) {
+            $lemma = preg_replace('/[^\p{L}\p{N}]/u', '', mb_strtolower($lemma));
+            if (mb_strlen($lemma) < 2) continue;
+
+            $expanded[] = $lemma;
+            $lemmaShort = mb_substr($lemma, 0, 5);
+            foreach (self::SEMANTIC_MAP as $key => $synonyms) {
+                if (mb_strpos($lemma, $key) === 0 || mb_strpos($key, $lemma) === 0 || mb_strpos($lemmaShort, $key) === 0) {
+                    $expanded = array_merge($expanded, $synonyms);
+                }
+            }
+        }
+        return array_unique(array_filter($expanded, fn($w) => mb_strlen($w) >= 2));
+    }
+
     private function buildBooleanExpression(array $lemmas): string
     {
-        $parts = [];
+        if (empty($lemmas)) return '';
+        $cleaned = [];
         foreach ($lemmas as $lemma) {
             $lemma = preg_replace('/[^\p{L}\p{N}]/u', '', $lemma);
             if (mb_strlen($lemma) >= 2) {
-                $parts[] = '+' . $lemma . '*';
+                $cleaned[] = $lemma . '*';
             }
         }
-        return implode(' ', $parts);
+        if (empty($cleaned)) return '';
+        return '(' . implode(' ', $cleaned) . ')';
     }
 
     private function searchShops(string $expression, int $limit): array
@@ -79,8 +127,8 @@ class SearchEngine
 
     private function searchShopsFallback(string $expression, int $limit): array
     {
-        $words = array_filter(explode(' ', str_replace('+', '', $expression)));
-        $words = array_map(fn($w) => trim($w, '*'), $words);
+        $words = preg_split('/[\s*()+]+/', $expression, -1, PREG_SPLIT_NO_EMPTY);
+        $words = array_filter(array_map(fn($w) => trim($w, '*()'), $words), fn($w) => mb_strlen($w) >= 2);
         if (empty($words)) return [];
 
         $conditions = [];
@@ -124,8 +172,8 @@ class SearchEngine
 
     private function searchProductsFallback(string $expression, int $limit): array
     {
-        $words = array_filter(explode(' ', str_replace('+', '', $expression)));
-        $words = array_map(fn($w) => trim($w, '*'), $words);
+        $words = preg_split('/[\s*()+]+/', $expression, -1, PREG_SPLIT_NO_EMPTY);
+        $words = array_filter(array_map(fn($w) => trim($w, '*()'), $words), fn($w) => mb_strlen($w) >= 2);
         if (empty($words)) return [];
 
         $conditions = [];
