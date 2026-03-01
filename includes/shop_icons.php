@@ -1,8 +1,15 @@
 <?php
 /**
- * Картинки магазинов — тематические SVG-иллюстрации (чётко по смыслу)
+ * Картинки магазинов — загруженные админом или SVG по умолчанию
  */
 function getShopImage(array $shop): string {
+    $custom = $shop['image'] ?? null;
+    if ($custom && is_string($custom) && $custom !== '') {
+        $path = __DIR__ . '/../assets/images/shops/' . $custom;
+        if (file_exists($path)) {
+            return 'assets/images/shops/' . $custom;
+        }
+    }
     $name = mb_strtolower($shop['name'] ?? '');
     $cat = (int)($shop['category_id'] ?? 1);
     

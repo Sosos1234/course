@@ -17,6 +17,24 @@ if (isset($_POST['delete_shop']) && isset($_POST['id'])) {
     exit;
 }
 
+// Загрузка картинки
+$uploadDir = __DIR__ . '/../assets/images/shops/';
+$allowedExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+function saveShopImage(array $file, string $uploadDir, array $allowedExt, int $shopId): ?string {
+    if (($file['error'] ?? 0) !== UPLOAD_ERR_OK || empty($file['tmp_name'])) return null;
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mime = finfo_file($finfo, $file['tmp_name']);
+    finfo_close($finfo);
+    $allowedMime = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (!in_array($mime, $allowedMime, true)) return null;
+    $ext = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/gif' => 'gif', 'image/webp' => 'webp'][$mime] ?? 'jpg';
+    if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+    $filename = 'shop_' . $shopId . '_' . substr(uniqid(), -8) . '.' . $ext;
+    if (move_uploaded_file($file['tmp_name'], $uploadDir . $filename)) return $filename;
+    return null;
+}
+
 // Сохранение (создание или обновление)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_shop'])) {
     $data = [
@@ -26,14 +44,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_shop'])) {
         'floor_id' => (int) ($_POST['floor_id'] ?? 0),
         'pavilion' => trim($_POST['pavilion'] ?? ''),
         'contact' => trim($_POST['contact'] ?? ''),
+        'image' => null,
     ];
     $fulltext = $morphy->prepareFullText([$data['name'], $data['description']]);
     $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
     if ($id) {
+        $current = $shop->getById($id);
+        $data['image'] = $current['image'] ?? null;
         $shop->update($id, $data, $fulltext);
+        if (isset($_POST['remove_image']) && $_POST['remove_image'] === '1') {
+            $shop->updateImage($id, null);
+        } elseif (!empty($_FILES['image']['tmp_name'])) {
+            $uploaded = saveShopImage($_FILES['image'], $uploadDir, $allowedExt, $id);
+            if ($uploaded) $shop->updateImage($id, $uploaded);
+        }
         header('Location: index.php?page=admin-shops&updated=1');
     } else {
-        $shop->create($data, $fulltext);
+        $newId = $shop->create($data, $fulltext);
+        if (!empty($_FILES['image']['tmp_name'])) {
+            $uploaded = saveShopImage($_FILES['image'], $uploadDir, $allowedExt, $newId);
+            if ($uploaded) $shop->updateImage($newId, $uploaded);
+        }
         header('Location: index.php?page=admin-shops&added=1');
     }
     exit;
@@ -61,7 +92,7 @@ require __DIR__ . '/admin_header.php';
     </div>
 
     <?php if ($addNew || $shopData): ?>
-    <form method="post" class="admin-form">
+    <form method="post" enctype="multipart/form-data" class="admin-form">
         <?php if ($shopData): ?><input type="hidden" name="id" value="<?= (int)$shopData['id'] ?>"><?php endif; ?>
         <input type="hidden" name="save_shop" value="1">
         <div class="form-group">
@@ -99,6 +130,20 @@ require __DIR__ . '/admin_header.php';
                 <label for="contact">Контакт</label>
                 <input type="text" id="contact" name="contact" value="<?= htmlspecialchars($shopData['contact'] ?? $_POST['contact'] ?? '') ?>">
             </div>
+        </div>
+        <div class="form-group">
+            <label for="image">Изображение магазина</label>
+            <?php if (!empty($shopData['image'])): ?>
+            <div class="admin-image-preview">
+                <img src="assets/images/shops/<?= htmlspecialchars($shopData['image']) ?>" alt="" style="max-width:200px;max-height:120px;object-fit:cover;border-radius:8px;">
+                <p class="admin-image-hint">Текущее фото. Загрузите новое, чтобы заменить.</p>
+            </div>
+            <?php endif; ?>
+            <input type="file" id="image" name="image" accept="image/jpeg,image/png,image/gif,image/webp">
+            <?php if (!empty($shopData['image'])): ?>
+            <label class="admin-checkbox-label"><input type="checkbox" name="remove_image" value="1"> Удалить текущее фото</label>
+            <?php endif; ?>
+            <p class="admin-field-hint">JPG, PNG, GIF или WebP. Рекомендуемый размер: 400×250 px.</p>
         </div>
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Сохранить</button>

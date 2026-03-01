@@ -111,8 +111,8 @@ class Shop
     {
         $slug = self::slugify($data['name'] ?? '') . '-' . substr(uniqid(), -6);
         $stmt = $this->pdo->prepare("
-            INSERT INTO shops (name, slug, description, category_id, floor_id, pavilion, contact, `fulltext`)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO shops (name, slug, description, category_id, floor_id, pavilion, contact, image, `fulltext`)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
         $stmt->execute([
             $data['name'] ?? '',
@@ -122,6 +122,7 @@ class Shop
             (int) ($data['floor_id'] ?? 0),
             $data['pavilion'] ?? null,
             $data['contact'] ?? null,
+            $data['image'] ?? null,
             $fulltext,
         ]);
         return (int) $this->pdo->lastInsertId();
@@ -133,7 +134,7 @@ class Shop
     public function update(int $id, array $data, string $fulltext = ''): bool
     {
         $stmt = $this->pdo->prepare("
-            UPDATE shops SET name = ?, description = ?, category_id = ?, floor_id = ?, pavilion = ?, contact = ?, `fulltext` = ?
+            UPDATE shops SET name = ?, description = ?, category_id = ?, floor_id = ?, pavilion = ?, contact = ?, image = ?, `fulltext` = ?
             WHERE id = ?
         ");
         return $stmt->execute([
@@ -143,9 +144,19 @@ class Shop
             (int) ($data['floor_id'] ?? 0),
             $data['pavilion'] ?? null,
             $data['contact'] ?? null,
+            $data['image'] ?? null,
             $fulltext,
             $id,
         ]);
+    }
+
+    /**
+     * Обновить только изображение магазина
+     */
+    public function updateImage(int $id, ?string $filename): bool
+    {
+        $stmt = $this->pdo->prepare("UPDATE shops SET image = ? WHERE id = ?");
+        return $stmt->execute([$filename, $id]);
     }
 
     /**
