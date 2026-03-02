@@ -1,5 +1,5 @@
 @echo off
-title Europa27
+title Europa27 - Install
 cd /d "%~dp0"
 
 set PHPEXE=
@@ -10,36 +10,22 @@ if "%PHPEXE%"=="" where php >nul 2>&1
 if "%PHPEXE%"=="" if not errorlevel 1 set PHPEXE=php
 
 if "%PHPEXE%"=="" (
-    echo.
-    echo PHP not found. Put php folder here or install XAMPP.
-    echo Download: https://windows.php.net/download/
-    echo.
+    echo PHP not found.
     pause
     exit /b 1
 )
-
-if not exist portable.flag echo. > portable.flag
 
 echo [PHP] > "%~dp0php.ini"
 echo extension=pdo_sqlite >> "%~dp0php.ini"
 
-if not exist "data\europa27.sqlite" (
-    echo.
-    echo Database not found. Run install.bat first.
-    echo.
-    pause
-    exit /b 1
+echo Creating database...
+"%PHPEXE%" -c "%~dp0" -d display_errors=1 -f install_portable.php
+
+echo.
+if exist "data\europa27.sqlite" (
+    echo OK. Now run start.bat
+) else (
+    echo Failed. Enable pdo_sqlite in php\php.ini
 )
-
-echo.
-echo Europa27 - http://localhost:8000
-echo Close window to stop.
-echo.
-
-timeout /t 2 /nobreak >nul
-start http://localhost:8000
-
-"%PHPEXE%" -c "%~dp0" -S localhost:8000
-
 echo.
 pause
