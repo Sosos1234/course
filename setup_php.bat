@@ -24,6 +24,7 @@ echo Creating php\php.ini...
 echo [PHP]
 echo extension_dir="%~dp0php\ext"
 echo extension=pdo_sqlite
+echo extension=mbstring
 ) > "php\php.ini"
 
 echo Done. Run install.bat
