@@ -17,6 +17,13 @@ if "%PHPEXE%"=="" (
 
 echo [PHP] > "%~dp0php.ini"
 echo extension=pdo_sqlite >> "%~dp0php.ini"
+if exist "%~dp0php\ext" (
+    set "EXTP=%~dp0php\ext"
+    set "EXTP=%EXTP:\=/%"
+    echo extension_dir="%EXTP%" >> "%~dp0php.ini"
+) else if exist "C:\xampp\php\ext" (
+    echo extension_dir="C:/xampp/php/ext" >> "%~dp0php.ini"
+)
 
 echo Creating database...
 "%PHPEXE%" -c "%~dp0" -d display_errors=1 -f install_portable.php
