@@ -19,9 +19,18 @@ if "%PHPEXE%"=="" (
 )
 
 if not exist portable.flag echo. > portable.flag
+
+echo [PHP] > "%~dp0php.ini"
+echo extension=pdo_sqlite >> "%~dp0php.ini"
+if exist "%~dp0php\ext" (
+    for %%A in ("%~dp0php") do echo extension_dir="%%~fA\ext" >> "%~dp0php.ini"
+) else if exist "C:\xampp\php\ext" (
+    echo extension_dir="C:\xampp\php\ext" >> "%~dp0php.ini"
+)
+
 if not exist "data\europa27.sqlite" (
     echo Creating database...
-    "%PHPEXE%" -d display_errors=0 -f install_portable.php 2>nul
+    "%PHPEXE%" -c "%~dp0" -d display_errors=0 -f install_portable.php 2>nul
 )
 
 echo.
@@ -32,7 +41,7 @@ echo.
 timeout /t 2 /nobreak >nul
 start http://localhost:8000
 
-"%PHPEXE%" -S localhost:8000
+"%PHPEXE%" -c "%~dp0" -S localhost:8000
 
 echo.
 pause
