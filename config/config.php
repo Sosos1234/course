@@ -1,11 +1,15 @@
 <?php
 /**
  * Конфигурация веб-сайта ТРЦ «Европа 27»
- * Переменные окружения: EUROPA27_DB_HOST, EUROPA27_DB_NAME, EUROPA27_DB_USER, EUROPA27_DB_PASS
+ * Портативный режим: создать файл portable.flag в корне проекта (или переменная EUROPA27_PORTABLE=1)
  */
 
+if (getenv('EUROPA27_PORTABLE') || file_exists(__DIR__ . '/../portable.flag')) {
+    return require __DIR__ . '/config.portable.php';
+}
+
 $db = [
-    'host' => getenv('EUROPA27_DB_HOST') ?: 'localhost',
+    'host' => getenv('EUROPA27_DB_HOST') ?: '127.0.0.1',
     'name' => getenv('EUROPA27_DB_NAME') ?: 'europa27',
     'user' => getenv('EUROPA27_DB_USER') ?: 'europa27',
     'pass' => getenv('EUROPA27_DB_PASS') ?: 'mypassword',

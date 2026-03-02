@@ -36,10 +36,18 @@ class DataImporter
 
         try {
             if ($clearExisting) {
-                $this->pdo->exec('SET FOREIGN_KEY_CHECKS = 0');
-                $this->pdo->exec('TRUNCATE TABLE products');
-                $this->pdo->exec('TRUNCATE TABLE shops');
-                $this->pdo->exec('SET FOREIGN_KEY_CHECKS = 1');
+                $driver = $this->pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
+                if ($driver === 'sqlite') {
+                    $this->pdo->exec('PRAGMA foreign_keys = OFF');
+                    $this->pdo->exec('DELETE FROM products');
+                    $this->pdo->exec('DELETE FROM shops');
+                    $this->pdo->exec('PRAGMA foreign_keys = ON');
+                } else {
+                    $this->pdo->exec('SET FOREIGN_KEY_CHECKS = 0');
+                    $this->pdo->exec('TRUNCATE TABLE products');
+                    $this->pdo->exec('TRUNCATE TABLE shops');
+                    $this->pdo->exec('SET FOREIGN_KEY_CHECKS = 1');
+                }
             }
             $this->pdo->beginTransaction();
             $importedShops = 0;
