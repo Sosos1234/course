@@ -29,14 +29,13 @@ if not exist "data\europa27.sqlite" (
 )
 
 echo.
-echo Europa27 - http://localhost:8000
-echo Close window to stop.
-echo.
+echo Starting server...
+start /b "" "%PHPEXE%" -S 127.0.0.1:8000
+timeout /t 3 /nobreak >nul
 
-timeout /t 2 /nobreak >nul
-start http://localhost:8000
-
-"%PHPEXE%" -c "%~dp0" -S localhost:8000
+echo Open: http://127.0.0.1:8000
+start http://127.0.0.1:8000
 
 echo.
+echo Server running. Close this window to stop.
 pause
