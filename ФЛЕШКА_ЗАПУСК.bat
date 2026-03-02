@@ -3,41 +3,42 @@ chcp 65001 >nul
 title ТРЦ Европа 27
 cd /d "%~dp0"
 
-set PHPEXE=
-if exist "php\php.exe" set PHPEXE=php\php.exe
-if exist "php\php-cgi.exe" set PHPEXE=php\php-cgi.exe
-where php >nul 2>&1
-if "%PHPEXE%"=="" if %errorlevel% equ 0 set PHPEXE=php
-if "%PHPEXE%"=="" if exist "C:\xampp\php\php.exe" set PHPEXE=C:\xampp\php\php.exe
-if "%PHPEXE%"=="" if exist "C:\OpenServer\modules\php\php.exe" set PHPEXE=C:\OpenServer\modules\php\php.exe
+set "PHPEXE="
+if exist "%~dp0php\php.exe" set "PHPEXE=%~dp0php\php.exe"
+if "%PHPEXE%"=="" if exist "C:\xampp\php\php.exe" set "PHPEXE=C:\xampp\php\php.exe"
+if "%PHPEXE%"=="" if exist "C:\OpenServer\modules\php\php.exe" set "PHPEXE=C:\OpenServer\modules\php\php.exe"
+if "%PHPEXE%"=="" (
+    where php >nul 2>&1
+    if not errorlevel 1 set "PHPEXE=php"
+)
 
 if "%PHPEXE%"=="" (
     echo.
-    echo   PHP не найден на флешке и в системе.
+    echo   [ОШИБКА] PHP не найден.
     echo.
-    echo   Скачайте portable PHP: https://windows.php.net/download/
-    echo   Распакуйте в папку php\ рядом с этим файлом.
-    echo   Или установите XAMPP на компьютер.
+    echo   Положите папку php с php.exe рядом с этим файлом
+    echo   или установите XAMPP.
+    echo.
+    echo   Скачать PHP: https://windows.php.net/download/
     echo.
     pause
     exit /b 1
 )
 
-if not exist "portable.flag" (
-    echo. > portable.flag
-)
+if not exist "portable.flag" echo. > portable.flag
 if not exist "data\europa27.sqlite" (
-    echo Создание базы данных...
-    "%PHPEXE%" -d display_errors=0 -f install_portable.php > nul 2>&1
+    echo Создание базы...
+    "%PHPEXE%" -d display_errors=0 -f install_portable.php 2>nul
 )
 
 echo.
 echo   ТРЦ Европа 27
-echo   Сайт: http://localhost:8000
-echo   Закройте окно для остановки.
+echo   http://localhost:8000
 echo.
-
+timeout /t 2 /nobreak >nul
 start "" "http://localhost:8000"
-"%PHPEXE%" -S localhost:8000 -t "%cd%"
 
+"%PHPEXE%" -S localhost:8000
+echo.
+echo   Сервер остановлен.
 pause
