@@ -15,18 +15,18 @@ if "%PHPEXE%"=="" (
     exit /b 1
 )
 
-echo [PHP] > "%~dp0php.ini"
-echo extension=pdo_sqlite >> "%~dp0php.ini"
-if exist "%~dp0php\ext" (
-    set "EXTP=%~dp0php\ext"
-    set "EXTP=%EXTP:\=/%"
-    echo extension_dir="%EXTP%" >> "%~dp0php.ini"
-) else if exist "C:\xampp\php\ext" (
-    echo extension_dir="C:/xampp/php/ext" >> "%~dp0php.ini"
+if exist "%~dp0php\php.exe" if not exist "%~dp0php\php.ini" (
+    echo Run setup_php.bat first.
+    pause
+    exit /b 1
 )
 
 echo Creating database...
-"%PHPEXE%" -c "%~dp0" -d display_errors=1 -f install_portable.php
+if exist "%~dp0php\php.exe" (
+    "%~dp0php\php.exe" -d display_errors=1 -f install_portable.php
+) else (
+    "%PHPEXE%" -d display_errors=1 -f install_portable.php
+)
 
 echo.
 if exist "data\europa27.sqlite" (

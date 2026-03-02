@@ -20,9 +20,6 @@ if "%PHPEXE%"=="" (
 
 if not exist portable.flag echo. > portable.flag
 
-echo [PHP] > "%~dp0php.ini"
-echo extension=pdo_sqlite >> "%~dp0php.ini"
-
 if not exist "data\europa27.sqlite" (
     echo.
     echo Database not found. Run install.bat first.
