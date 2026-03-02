@@ -32,6 +32,8 @@ php install.php
 php -S localhost:8000
 ```
 
+**Доступ из интернета:** см. [docs/BESPLATNYJ_HOSTING.md](docs/BESPLATNYJ_HOSTING.md) — бесплатный хостинг (InfinityFree и др.) с поддоменом.
+
 5. **Импортировать данные:** войдите в админ-панель (`?page=admin`, логин: admin), затем перейдите в импорт (`?page=import`).
 
 6. **Обновить fulltext у существующих товаров** (если данные импортированы до обновления):  
