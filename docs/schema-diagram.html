@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Схема данных SQL — ТРЦ Европа 27</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; padding: 2rem; background: #e8e8e8; margin: 0; }
+        h1 { text-align: center; color: #1a365d; margin-bottom: 1.5rem; font-size: 1.5em; }
+        .diagram { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); max-width: 720px; margin: 0 auto; position: relative; }
+        .schema-wrap { position: relative; width: 680px; height: 540px; margin: 0 auto; }
+        .table-box { position: absolute; border: 2px solid #2c5282; border-radius: 8px; overflow: hidden; width: 160px; z-index: 2; background: #fff; }
+        .table-header { background: #2c5282; color: #fff; padding: 0.5rem 0.7rem; font-weight: 700; font-size: 0.95em; }
+        .table-body { padding: 0.5rem 0.7rem; font-family: 'Consolas', monospace; font-size: 0.8em; background: #fafafa; }
+        .field { padding: 0.12rem 0; color: #2d3748; }
+        .field.pk { color: #c53030; font-weight: 600; }
+        .field.fk { color: #2b6cb0; font-weight: 500; }
+        #t-cat { left: 40px;   top: 30px; }
+        #t-floors { left: 480px; top: 30px; }
+        #t-shops { left: 260px; top: 220px; width: 160px; }
+        #t-products { left: 40px;  top: 430px; }
+        #t-news { left: 480px; top: 430px; }
+        svg.arrows { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .arrow { stroke: #5a6778; stroke-width: 1.5; fill: none; }
+        .arrow-end { fill: #5a6778; }
+        .arrow-label { font-size: 10px; fill: #4a5568; font-family: Arial, sans-serif; }
+        @media print { body { background: #fff; } .diagram { box-shadow: none; } }
+    </style>
+</head>
+<body>
+    <h1>Схема данных БД — ТРЦ «Европа 27»</h1>
+
+    <div class="diagram">
+        <div class="schema-wrap">
+            <svg class="arrows" width="680" height="540" viewBox="0 0 680 540">
+                <defs>
+                    <marker id="arr" markerWidth="8" markerHeight="5.5" refX="7" refY="2.75" orient="auto">
+                        <polygon class="arrow-end" points="0 0, 8 2.75, 0 5.5"/>
+                    </marker>
+                </defs>
+                <!-- categories → shops: вниз, вбок по коридору, вниз к shops -->
+                <path class="arrow" marker-end="url(#arr)" d="M 120 138 L 120 175 L 270 175 L 270 218"/>
+                <text class="arrow-label" x="135" y="158">category_id</text>
+                <!-- floors → shops -->
+                <path class="arrow" marker-end="url(#arr)" d="M 560 138 L 560 175 L 410 175 L 410 218"/>
+                <text class="arrow-label" x="455" y="158">floor_id</text>
+                <!-- shops → products: вниз, влево по коридору, вниз к products -->
+                <path class="arrow" marker-end="url(#arr)" d="M 295 328 L 295 375 L 120 375 L 120 428"/>
+                <text class="arrow-label" x="195" y="355">shop_id</text>
+                <!-- shops → news -->
+                <path class="arrow" marker-end="url(#arr)" d="M 385 328 L 385 375 L 560 375 L 560 428"/>
+                <text class="arrow-label" x="455" y="355">shop_id</text>
+            </svg>
+
+            <div id="t-cat" class="table-box">
+                <div class="table-header">categories</div>
+                <div class="table-body">
+                    <div class="field pk">▪ id (PK)</div>
+                    <div class="field">▪ name</div>
+                    <div class="field">▪ slug</div>
+                    <div class="field">▪ sort_order</div>
+                </div>
+            </div>
+            <div id="t-floors" class="table-box">
+                <div class="table-header">floors</div>
+                <div class="table-body">
+                    <div class="field pk">▪ id (PK)</div>
+                    <div class="field">▪ number</div>
+                    <div class="field">▪ name</div>
+                    <div class="field">▪ description</div>
+                </div>
+            </div>
+            <div id="t-shops" class="table-box">
+                <div class="table-header">shops</div>
+                <div class="table-body">
+                    <div class="field pk">▪ id (PK)</div>
+                    <div class="field">▪ name, slug</div>
+                    <div class="field fk">▪ category_id</div>
+                    <div class="field fk">▪ floor_id</div>
+                    <div class="field">▪ pavilion, contact</div>
+                </div>
+            </div>
+            <div id="t-products" class="table-box">
+                <div class="table-header">products</div>
+                <div class="table-body">
+                    <div class="field pk">▪ id (PK)</div>
+                    <div class="field fk">▪ shop_id</div>
+                    <div class="field">▪ name</div>
+                    <div class="field">▪ category, price</div>
+                </div>
+            </div>
+            <div id="t-news" class="table-box">
+                <div class="table-header">news</div>
+                <div class="table-body">
+                    <div class="field pk">▪ id (PK)</div>
+                    <div class="field fk">▪ shop_id</div>
+                    <div class="field">▪ title</div>
+                    <div class="field">▪ content</div>
+                </div>
+            </div>
+        </div>
+
+        <p style="text-align:center; margin-top:1rem; color:#718096; font-size:0.85em;">
+            MySQL / MariaDB · ТРЦ «Европа 27»
+        </p>
+    </div>
+
+    <p style="text-align:center; margin-top:1rem; color:#a0aec0; font-size:0.8em;">
+        Откройте в браузере → скриншот (Win+Shift+S) или фото
+    </p>
+</body>
+</html>

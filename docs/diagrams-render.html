@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Схемы проекта — ТРЦ Европа 27</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body { font-family: sans-serif; max-width: 900px; margin: 0 auto; padding: 2rem; background: #f5f5f5; }
+        h1 { color: #333; }
+        h2 { margin-top: 2rem; color: #555; border-bottom: 2px solid #e07c24; padding-bottom: 0.5rem; }
+        .diagram { background: #fff; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: auto; }
+        .mermaid { text-align: center; }
+        p { color: #666; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <h1>Схемы проекта ТРЦ «Европа 27»</h1>
+    <p>Откройте эту страницу в браузере. Диаграммы можно сохранить как изображение: правый клик → «Сохранить изображение как...» или скриншот.</p>
+
+    <h2>1. Структура проекта</h2>
+    <div class="diagram">
+        <div class="mermaid">
+flowchart TB
+    subgraph Root["ТРЦ Европа 27 (корень)"]
+        index[index.php]
+        bootstrap[bootstrap.php]
+        install[install.php]
+    end
+    
+    subgraph Admin["admin/"]
+        adminIdx[index.php]
+    end
+    
+    subgraph Assets["assets/"]
+        css[css/style.css]
+        js[js/main.js]
+        imgs[images/shops/]
+    end
+    
+    subgraph Config["config/"]
+        cfg[config.php]
+        db[database.php]
+    end
+    
+    subgraph Database["database/"]
+        schema[schema.sql]
+        seed[seed_news.sql]
+    end
+    
+    subgraph Import["import/"]
+        data[data.json]
+        run[run.php]
+    end
+    
+    subgraph Src["src/ модели"]
+        Shop[Shop.php]
+        Category[Category.php]
+        Floor[Floor.php]
+        News[News.php]
+        Search[SearchEngine.php]
+    end
+    
+    subgraph Views["views/ шаблоны"]
+        layout[layout.php]
+        home[home.php]
+        shops[shops.php]
+        shop[shop.php]
+        search[search.php]
+    end
+    
+    Root --> Admin
+    Root --> Assets
+    Root --> Config
+    Root --> Database
+    Root --> Import
+    Root --> Src
+    Root --> Views
+        </div>
+    </div>
+
+    <h2>2. Интерфейс проекта (навигация)</h2>
+    <div class="diagram">
+        <div class="mermaid">
+flowchart TB
+    Home[Главная]
+    Shops[Магазины]
+    Shop[Страница магазина]
+    Floors[Навигация по этажам]
+    News[Новости]
+    About[О центре]
+    Contacts[Контакты]
+    Search[Поиск]
+    Admin[Админ]
+    Import[Импорт]
+    
+    Home --> Shops
+    Home --> Floors
+    Home --> News
+    Home --> About
+    Home --> Contacts
+    Shops --> Shop
+    Floors --> Shop
+    Search --> Shop
+    Search --> Shops
+    Home -.-> Admin
+    Home -.-> Import
+        </div>
+    </div>
+
+    <h2>3. Архитектура (поток данных)</h2>
+    <div class="diagram">
+        <div class="mermaid">
+flowchart LR
+    Browser[Браузер]
+    Index[index.php]
+    Bootstrap[bootstrap.php]
+    Models[Модели]
+    DB[(MySQL)]
+    Views[views/]
+    HTML[HTML + CSS + JS]
+    
+    Browser --> Index
+    Index --> Bootstrap
+    Bootstrap --> Models
+    Models --> DB
+    Models --> Views
+    Views --> HTML
+    HTML --> Browser
+        </div>
+    </div>
+
+    <p><small>Схемы сгенерированы с помощью Mermaid. Подробная инструкция для Visio — в файле <code>docs/visio-schemas.md</code>.</small></p>
+
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+    </script>
+</body>
+</html>

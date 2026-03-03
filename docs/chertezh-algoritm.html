@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чертеж — Алгоритм поиска ТРЦ «Европа 27»</title>
+    <style>
+        @page { size: A4 landscape; margin: 0; }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; overflow-x: auto; }
+        body { font-family: Arial, sans-serif; background: #f0f0f0; font-size: 10pt; min-width: 900px; }
+        .sheet { position: relative; width: 900px; min-width: 900px; margin: 0 auto; background: #fff; border: 1px solid #000; flex-shrink: 0; }
+        .flow-title { text-align: center; font-weight: bold; font-size: 12pt; padding: 10px; }
+        .flow-wrap { width: 900px; height: 420px; flex-shrink: 0; overflow: hidden; line-height: 0; }
+        .title-block { position: absolute; bottom: 12px; right: 12px; width: 380px; border: 1px solid #000; font-size: 8pt; }
+        .title-block table { width: 100%; border-collapse: collapse; }
+        .title-block td { border: 1px solid #000; padding: 2px 4px; }
+        .title-block .big { font-size: 10pt; font-weight: bold; text-align: center; }
+        @media print {
+            body { background: #fff; padding: 0; overflow: visible; }
+            .sheet { width: 900px; min-width: 900px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sheet">
+        <div class="flow-title">Алгоритм поиска на информационном ресурсе ТРЦ «Европа 27»</div>
+
+        <div class="flow-wrap">
+            <svg viewBox="0 0 900 420" width="900" height="420" font-family="Arial" font-size="10" style="display:block;">
+                <defs>
+                    <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                        <polygon points="0 0, 8 3, 0 6" fill="#000"/>
+                    </marker>
+                </defs>
+
+                <!-- === ФИГУРЫ (рисуем первыми, стрелки поверх) === -->
+                <!-- Колонка 1 -->
+                <ellipse cx="150" cy="28" rx="55" ry="20" fill="#fff" stroke="#000"/>
+                <text x="150" y="33" text-anchor="middle">Начало</text>
+
+                <path d="M 120 55 L 180 55 L 170 82 L 130 82 Z" fill="#fff" stroke="#000"/>
+                <text x="150" y="72" text-anchor="middle">Вход на сайт</text>
+
+                <rect x="100" y="95" width="100" height="36" fill="#fff" stroke="#000"/>
+                <text x="150" y="115" text-anchor="middle">Выбор раздела</text>
+
+                <path d="M 150 142, 190 162, 150 182, 110 162 Z" fill="#fff" stroke="#000"/>
+                <text x="150" y="165" text-anchor="middle">Поиск?</text>
+
+                <rect x="80" y="245" width="140" height="32" fill="#fff" stroke="#000"/>
+                <text x="150" y="262" text-anchor="middle">Ввод запроса (Да)</text>
+
+                <rect x="80" y="300" width="140" height="32" fill="#fff" stroke="#000"/>
+                <text x="150" y="317" text-anchor="middle">Каталог (Нет)</text>
+
+                <circle cx="420" cy="260" r="14" fill="#fff" stroke="#000"/>
+                <text x="420" y="264" text-anchor="middle">1</text>
+
+                <!-- Колонка 2 -->
+                <rect x="330" y="100" width="180" height="40" fill="#fff" stroke="#000"/>
+                <text x="420" y="120" text-anchor="middle">SearchEngine, MorphyProcessor</text>
+
+                <rect x="350" y="165" width="140" height="36" fill="#fff" stroke="#000"/>
+                <text x="420" y="185" text-anchor="middle">Full-Text поиск</text>
+
+                <path d="M 420 218, 460 238, 420 258, 380 238 Z" fill="#fff" stroke="#000"/>
+                <text x="420" y="241" text-anchor="middle">Найдено?</text>
+
+                <rect x="310" y="290" width="100" height="36" fill="#fff" stroke="#000"/>
+                <text x="360" y="310" text-anchor="middle">Результаты</text>
+
+                <rect x="430" y="290" width="100" height="36" fill="#fff" stroke="#000"/>
+                <text x="480" y="310" text-anchor="middle">Подсказки</text>
+
+                <circle cx="480" cy="355" r="14" fill="#fff" stroke="#000"/>
+                <text x="480" y="359" text-anchor="middle">5</text>
+
+                <!-- Колонка 3 -->
+                <circle cx="680" cy="100" r="14" fill="#fff" stroke="#000"/>
+                <text x="680" y="104" text-anchor="middle">2</text>
+
+                <rect x="600" y="135" width="160" height="44" fill="#fff" stroke="#000"/>
+                <text x="680" y="155" text-anchor="middle">Карточка магазина</text>
+
+                <path d="M 680 198, 720 218, 680 238, 640 218 Z" fill="#fff" stroke="#000"/>
+                <text x="680" y="221" text-anchor="middle">Конец?</text>
+
+                <ellipse cx="680" cy="275" rx="55" ry="20" fill="#fff" stroke="#000"/>
+                <text x="680" y="280" text-anchor="middle">Конец</text>
+
+                <rect x="600" y="310" width="160" height="32" fill="#fff" stroke="#000"/>
+                <text x="680" y="328" text-anchor="middle">Возврат (Нет)</text>
+
+                <!-- === СТРЕЛКИ (соединяют центры границ фигур) === -->
+                <!-- Начало -> Вход -->
+                <path d="M 150 48 L 150 53" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Вход -> Выбор -->
+                <path d="M 150 82 L 150 93" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Выбор -> Поиск? -->
+                <path d="M 150 131 L 150 140" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Поиск? -> Ввод (Да, вниз) -->
+                <path d="M 150 182 L 150 243" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Поиск? -> Каталог (Нет, влево-вниз) -->
+                <path d="M 110 162 L 80 162 L 80 284 L 150 284" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Ввод -> Коннектор 1 -->
+                <path d="M 220 261 L 406 261" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Коннектор 1 -> SearchEngine -->
+                <path d="M 420 246 L 420 118" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- SearchEngine -> Full-Text -->
+                <path d="M 420 140 L 420 163" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Full-Text -> Найдено? -->
+                <path d="M 420 201 L 420 216" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Найдено? Да -> Результаты -->
+                <path d="M 420 258 L 420 288" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Найдено? Нет -> Подсказки -->
+                <path d="M 460 238 L 480 278 L 480 288" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Результаты -> Коннектор 2 -->
+                <path d="M 360 326 L 360 100 L 680 100" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Каталог -> Коннектор 2 -->
+                <path d="M 220 316 L 220 130 L 660 130 L 680 100" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Коннектор 2 -> Карточка -->
+                <path d="M 680 100 L 680 133" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Карточка -> Конец? -->
+                <path d="M 680 179 L 680 196" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Конец? Да -> Конец -->
+                <path d="M 680 238 L 680 263" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Конец? Нет -> Возврат -->
+                <path d="M 640 218 L 600 218 L 600 298 L 680 298" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Возврат -> Коннектор 5 -->
+                <path d="M 680 326 L 680 355 L 494 355" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+                <!-- Коннектор 5 -> назад к Выбор раздела -->
+                <path d="M 480 341 L 480 131 L 150 131" stroke="#000" stroke-width="1.5" fill="none" stroke-dasharray="5 3" marker-end="url(#arr)"/>
+            </svg>
+        </div>
+
+        <div class="title-block">
+            <table>
+                <tr><td colspan="3" class="big">Алгоритм поиска на сайте ТРЦ «Европа 27»</td></tr>
+                <tr><td>Разраб.</td><td>Шишкин В.Е.</td><td>ГОАПОУ «Липецкий металлургический колледж»</td></tr>
+                <tr><td>Пров.</td><td>Туболец М.И.</td><td>гр. ИСиП 22-3</td></tr>
+            </table>
+        </div>
+    </div>
+    <p style="text-align:center; margin-top:6px; font-size:9pt; color:#888;">Печать → Сохранить как PDF · Масштаб 100%, без колонтитулов</p>
+</body>
+</html>

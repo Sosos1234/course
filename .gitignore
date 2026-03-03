@@ -1,0 +1,6 @@
+/vendor/
+/data/
+.env
+*.log
+*.sqlite
+php.ini

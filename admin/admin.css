@@ -1,0 +1,416 @@
+/* Админ-панель — отдельный стиль */
+.admin-body {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #f0f9ff 0%, #e0f2fe 50%, #f8fafc 100%);
+}
+
+/* Шапка */
+.admin-header {
+    background: linear-gradient(135deg, #0f4c5c 0%, #0a3d4a 50%, #062d37 100%);
+    color: #fff;
+    padding: 1rem 0;
+    box-shadow: 0 4px 20px rgba(15, 76, 92, 0.3);
+}
+
+.admin-header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.admin-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.15rem;
+}
+
+.admin-logo-icon {
+    font-size: 1.35rem;
+}
+
+.admin-logout {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: background 0.2s, color 0.2s;
+}
+
+.admin-logout:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+/* Контент */
+.admin-main {
+    padding: 2rem 0 3rem;
+}
+
+.admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+}
+
+.admin-welcome {
+    margin-bottom: 2rem;
+}
+
+.admin-welcome h1 {
+    margin: 0 0 0.5rem;
+    font-size: 1.75rem;
+    color: #1e293b;
+}
+
+.admin-welcome p {
+    margin: 0;
+    color: #64748b;
+    font-size: 1rem;
+}
+
+/* Карточки дашборда */
+.admin-dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
+}
+
+.admin-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 14px;
+    text-decoration: none;
+    color: #1e293b;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.admin-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    border-color: #0f4c5c;
+}
+
+.admin-card-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    line-height: 1;
+}
+
+.admin-card h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.admin-card p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #64748b;
+    line-height: 1.4;
+}
+
+.admin-card-accent {
+    border-color: #e07c24;
+    background: linear-gradient(135deg, #fff 0%, #fffbf7 100%);
+}
+
+.admin-card-accent:hover {
+    border-color: #e07c24;
+    box-shadow: 0 12px 24px rgba(224, 124, 36, 0.15);
+}
+
+/* Переход на сайт */
+.admin-footer-actions {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.admin-view-site {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #0f4c5c;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    background: rgba(15, 76, 92, 0.08);
+    transition: background 0.2s;
+}
+
+.admin-view-site:hover {
+    background: rgba(15, 76, 92, 0.15);
+}
+
+/* Форма входа */
+.admin-login-wrap {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.admin-login-card {
+    width: 100%;
+    max-width: 400px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e2e8f0;
+}
+
+.admin-login-header {
+    text-align: center;
+    margin-bottom: 1.75rem;
+}
+
+.admin-login-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.admin-login-header h1 {
+    margin: 0 0 0.25rem;
+    font-size: 1.5rem;
+    color: #1e293b;
+}
+
+.admin-login-header p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.admin-login-form .form-group {
+    margin-bottom: 1.25rem;
+}
+
+.admin-login-form label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #334155;
+}
+
+.admin-login-form input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.admin-login-form input:focus {
+    outline: none;
+    border-color: #0f4c5c;
+    box-shadow: 0 0 0 3px rgba(15, 76, 92, 0.15);
+}
+
+.admin-login-form .btn-block {
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.admin-login-back {
+    display: block;
+    margin-top: 1.5rem;
+    text-align: center;
+    color: #64748b;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.admin-login-back:hover {
+    color: #0f4c5c;
+}
+
+/* CRUD — формы и таблицы */
+.admin-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.admin-nav a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.admin-nav a:hover {
+    color: #fff;
+}
+
+.admin-crud {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+}
+
+.admin-crud-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.admin-crud-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #1e293b;
+}
+
+.admin-crud-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.admin-filter-form select {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    font-size: 0.95rem;
+}
+
+.admin-form {
+    max-width: 600px;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+
+.admin-form .form-group {
+    margin-bottom: 1rem;
+}
+
+.admin-form label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #334155;
+}
+
+.admin-form input,
+.admin-form textarea,
+.admin-form select {
+    width: 100%;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+.admin-form input:focus,
+.admin-form textarea:focus,
+.admin-form select:focus {
+    outline: none;
+    border-color: #0f4c5c;
+    box-shadow: 0 0 0 2px rgba(15, 76, 92, 0.15);
+}
+
+.admin-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.admin-form .form-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 0.75rem;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-table th {
+    background: #f8fafc;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #475569;
+}
+
+.admin-table tr:hover td {
+    background: #f8fafc;
+}
+
+.admin-action {
+    color: #0f4c5c;
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-right: 0.75rem;
+}
+
+.admin-action:hover {
+    text-decoration: underline;
+}
+
+.admin-action-danger {
+    background: none;
+    border: none;
+    color: #dc2626;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.admin-action-danger:hover {
+    text-decoration: underline;
+}
+
+.admin-message {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.admin-message-success {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.admin-image-preview { margin-bottom: 0.5rem; }
+.admin-image-hint { font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0 0; }
+.admin-field-hint { font-size: 0.85rem; color: var(--text-muted); margin: 0.35rem 0 0; }
+.admin-checkbox-label { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; font-size: 0.9rem; cursor: pointer; }
