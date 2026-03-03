@@ -53,22 +53,44 @@ $hasTabs = count($productsByCategory) > 1;
                     <div class="tab-content <?= $i === 0 ? 'active' : '' ?>" id="tab-<?= $i ?>">
                         <div class="product-cards">
                             <?php foreach ($items as $p): ?>
-                            <div class="product-card product-card-with-variants">
-                                <span class="product-name"><?= htmlspecialchars($p['name']) ?></span>
+                            <?php
+                            $hasPrices = false;
+                            $minPrice = null;
+                            if (!empty($p['variants'])) {
+                                foreach ($p['variants'] as $v) {
+                                    $pr = isset($v['price']) ? (float)$v['price'] : null;
+                                    if ($pr !== null && $pr > 0) { $hasPrices = true; $minPrice = $minPrice === null ? $pr : min($minPrice, $pr); }
+                                }
+                            }
+                            ?>
+                            <div class="product-card product-card-modern">
+                                <div class="product-card-header">
+                                    <span class="product-card-icon">📦</span>
+                                    <span class="product-name"><?= htmlspecialchars($p['name']) ?></span>
+                                    <?php if ($minPrice !== null): ?>
+                                    <span class="product-price-badge">от <?= number_format($minPrice, 0) ?> ₽</span>
+                                    <?php endif; ?>
+                                </div>
                                 <?php if (!empty($p['variants'])): ?>
-                                <ul class="product-variants">
+                                <div class="product-variants-table">
                                     <?php foreach ($p['variants'] as $v): ?>
-                                    <li>
-                                        <?= htmlspecialchars($v['name']) ?>
-                                        <?php if (isset($v['price']) && $v['price']): ?>
-                                        <span class="variant-price"><?= number_format((float)$v['price'], 2) ?> ₽</span>
-                                        <?php endif; ?>
-                                    </li>
+                                    <div class="product-variant-row">
+                                        <span class="variant-name"><?= htmlspecialchars($v['name']) ?></span>
+                                        <span class="variant-price">
+                                            <?php if (isset($v['price']) && (float)$v['price'] > 0): ?>
+                                            <?= number_format((float)$v['price'], 0) ?> ₽
+                                            <?php elseif (isset($v['price']) && (float)$v['price'] == 0): ?>
+                                            <span class="price-free">Бесплатно</span>
+                                            <?php else: ?>
+                                            —
+                                            <?php endif; ?>
+                                        </span>
+                                    </div>
                                     <?php endforeach; ?>
-                                </ul>
+                                </div>
                                 <?php endif; ?>
                                 <?php if (isset($p['price']) && $p['price'] && empty($p['variants'])): ?>
-                                <span class="product-price"><?= number_format((float)$p['price'], 2) ?> ₽</span>
+                                <span class="product-price"><?= number_format((float)$p['price'], 0) ?> ₽</span>
                                 <?php endif; ?>
                             </div>
                             <?php endforeach; ?>
@@ -79,25 +101,47 @@ $hasTabs = count($productsByCategory) > 1;
                 <?php else: ?>
                 <div class="product-cards">
                     <?php foreach ($products as $p): ?>
-                    <div class="product-card product-card-with-variants">
-                        <span class="product-name"><?= htmlspecialchars($p['name']) ?></span>
+                    <?php
+                    $hasPrices = false;
+                    $minPrice = null;
+                    if (!empty($p['variants'])) {
+                        foreach ($p['variants'] as $v) {
+                            $pr = isset($v['price']) ? (float)$v['price'] : null;
+                            if ($pr !== null && $pr > 0) { $hasPrices = true; $minPrice = $minPrice === null ? $pr : min($minPrice, $pr); }
+                        }
+                    }
+                    ?>
+                    <div class="product-card product-card-modern">
+                        <div class="product-card-header">
+                            <span class="product-card-icon">📦</span>
+                            <span class="product-name"><?= htmlspecialchars($p['name']) ?></span>
+                            <?php if ($minPrice !== null): ?>
+                            <span class="product-price-badge">от <?= number_format($minPrice, 0) ?> ₽</span>
+                            <?php endif; ?>
+                        </div>
                         <?php if (!empty($p['variants'])): ?>
-                        <ul class="product-variants">
+                        <div class="product-variants-table">
                             <?php foreach ($p['variants'] as $v): ?>
-                            <li>
-                                <?= htmlspecialchars($v['name']) ?>
-                                <?php if (isset($v['price']) && $v['price']): ?>
-                                <span class="variant-price"><?= number_format((float)$v['price'], 2) ?> ₽</span>
-                                <?php endif; ?>
-                            </li>
+                            <div class="product-variant-row">
+                                <span class="variant-name"><?= htmlspecialchars($v['name']) ?></span>
+                                <span class="variant-price">
+                                    <?php if (isset($v['price']) && (float)$v['price'] > 0): ?>
+                                    <?= number_format((float)$v['price'], 0) ?> ₽
+                                    <?php elseif (isset($v['price']) && (float)$v['price'] == 0): ?>
+                                    <span class="price-free">Бесплатно</span>
+                                    <?php else: ?>
+                                    —
+                                    <?php endif; ?>
+                                </span>
+                            </div>
                             <?php endforeach; ?>
-                        </ul>
+                        </div>
                         <?php endif; ?>
                         <?php if (!empty($p['category'])): ?>
                         <span class="product-cat"><?= htmlspecialchars($p['category']) ?></span>
                         <?php endif; ?>
                         <?php if (isset($p['price']) && $p['price'] && empty($p['variants'])): ?>
-                        <span class="product-price"><?= number_format((float)$p['price'], 2) ?> ₽</span>
+                        <span class="product-price"><?= number_format((float)$p['price'], 0) ?> ₽</span>
                         <?php endif; ?>
                     </div>
                     <?php endforeach; ?>

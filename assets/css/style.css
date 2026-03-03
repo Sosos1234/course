@@ -539,8 +539,8 @@ body {
 
 .product-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
 }
 .product-card {
     padding: 1rem 1.25rem;
@@ -570,23 +570,76 @@ body {
     font-size: 0.95rem;
 }
 
-.product-card.product-card-with-variants {
+/* Карточка товара — современный дизайн */
+.product-card.product-card-modern {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    padding: 1.25rem 1.5rem;
     min-width: 0;
 }
-.product-variants {
-    margin: 0.5rem 0 0;
-    padding-left: 1.1rem;
-    font-size: 0.875rem;
-    color: var(--text-muted);
-    list-style: disc;
+.product-card.product-card-modern:hover {
+    border-color: var(--primary-light);
+    box-shadow: var(--shadow);
 }
-.product-variants li {
-    margin-bottom: 0.2rem;
+.product-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
 }
-.product-variants .variant-price {
+.product-card-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+.product-card-header .product-name {
+    flex: 1;
+    font-weight: 600;
+    font-size: 1.05rem;
+    line-height: 1.35;
+}
+.product-price-badge {
+    flex-shrink: 0;
+    font-weight: 600;
+    font-size: 0.9rem;
     color: var(--accent);
+    background: linear-gradient(135deg, rgba(224,124,36,0.12) 0%, rgba(244,162,97,0.08) 100%);
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+}
+.product-variants-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+.product-variant-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 0.9rem;
+}
+.product-variant-row:last-child {
+    border-bottom: none;
+}
+.product-variant-row .variant-name {
+    color: var(--text);
+}
+.product-variant-row .variant-price {
+    font-weight: 600;
+    color: var(--primary);
+    white-space: nowrap;
+}
+.product-variant-row .price-free {
+    color: #059669;
     font-weight: 500;
-    margin-left: 0.25rem;
+}
+.product-card-modern .product-cat {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
 }
 
 /* Search */
