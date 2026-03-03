@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS news (
     FOREIGN KEY (shop_id) REFERENCES shops(id) ON DELETE SET NULL
 );
 
-INSERT OR IGNORE INTO floors (id, number, name, description) VALUES (1, 1, '1 этаж', 'Основной торговый уровень'), (2, 2, '2 этаж', 'Торговая галерея, услуги, развлечения');
+INSERT OR IGNORE INTO floors (id, number, name, description) VALUES (1, 1, '1 этаж', 'Основной торговый уровень'), (2, 2, '2 этаж', 'Торговая галерея, услуги, развлечения'), (3, 3, '3 этаж', 'Дополнительный торговый уровень');
 INSERT OR IGNORE INTO categories (name, slug, sort_order) VALUES 
 ('Продукты', 'produkty', 1), ('Одежда и обувь', 'odezhda-obuv', 2), ('Детские товары', 'detskie-tovary', 3),
 ('Электроника и бытовая техника', 'elektronika', 4), ('Торговая галерея', 'torgovaya-galereya', 5),

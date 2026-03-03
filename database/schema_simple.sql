@@ -75,7 +75,8 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO `floors` (`number`, `name`, `description`) VALUES
 (1, '1 этаж', 'Основной торговый уровень'),
-(2, '2 этаж', 'Торговая галерея, услуги, развлечения');
+(2, '2 этаж', 'Торговая галерея, услуги, развлечения'),
+(3, '3 этаж', 'Дополнительный торговый уровень');
 
 INSERT INTO `categories` (`name`, `slug`, `sort_order`) VALUES
 ('Продукты', 'produkty', 1),
