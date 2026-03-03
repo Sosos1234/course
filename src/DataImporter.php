@@ -66,6 +66,24 @@ class DataImporter
             $this->pdo->beginTransaction();
 
             $driver = $this->pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
+
+            // Убедиться, что 3-й этаж существует (для Галактики и др.)
+            $hasFloor3 = false;
+            if ($driver === 'sqlite') {
+                $r = $this->pdo->query("SELECT 1 FROM floors WHERE number = 3");
+                $hasFloor3 = $r && $r->fetch();
+            } else {
+                $r = $this->pdo->query("SELECT 1 FROM floors WHERE number = 3");
+                $hasFloor3 = $r && $r->rowCount() > 0;
+            }
+            if (!$hasFloor3) {
+                if ($driver === 'sqlite') {
+                    $this->pdo->exec("INSERT INTO floors (number, name, description) VALUES (3, '3 этаж', 'Дополнительный торговый уровень')");
+                } else {
+                    $this->pdo->exec("INSERT IGNORE INTO floors (number, name, description) VALUES (3, '3 этаж', 'Дополнительный торговый уровень')");
+                }
+            }
+
             $hasVariants = false;
             if ($driver === 'sqlite') {
                 $r = $this->pdo->query("SELECT 1 FROM sqlite_master WHERE type='table' AND name='product_variants'");
