@@ -65,11 +65,18 @@ switch ($page) {
             header('HTTP/1.0 404 Not Found');
             $pageData = ['page' => '404', 'pageTitle' => 'Не найдено', 'config' => $config['site']];
         } else {
+            $products = $app['shop']->getProducts($id);
+            $productIds = array_column($products, 'id');
+            $variantsMap = $app['product']->getVariantsForProducts($productIds);
+            foreach ($products as &$p) {
+                $p['variants'] = $variantsMap[$p['id']] ?? [];
+            }
+            unset($p);
             $pageData = [
                 'page' => 'shop',
                 'pageTitle' => $shop['name'],
                 'shop' => $shop,
-                'products' => $app['shop']->getProducts($id),
+                'products' => $products,
                 'config' => $config['site'],
             ];
         }

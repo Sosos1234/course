@@ -37,19 +37,64 @@ class DataImporter
         try {
             if ($clearExisting) {
                 $driver = $this->pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
+                $hasVariants = false;
+                if ($driver === 'sqlite') {
+                    $r = $this->pdo->query("SELECT 1 FROM sqlite_master WHERE type='table' AND name='product_variants'");
+                    $hasVariants = $r && $r->fetch();
+                } else {
+                    $r = $this->pdo->query("SHOW TABLES LIKE 'product_variants'");
+                    $hasVariants = $r && $r->rowCount() > 0;
+                }
                 if ($driver === 'sqlite') {
                     $this->pdo->exec('PRAGMA foreign_keys = OFF');
+                    if ($hasVariants) {
+                        $this->pdo->exec('DELETE FROM product_variants');
+                    }
                     $this->pdo->exec('DELETE FROM products');
                     $this->pdo->exec('DELETE FROM shops');
                     $this->pdo->exec('PRAGMA foreign_keys = ON');
                 } else {
                     $this->pdo->exec('SET FOREIGN_KEY_CHECKS = 0');
+                    if ($hasVariants) {
+                        $this->pdo->exec('TRUNCATE TABLE product_variants');
+                    }
                     $this->pdo->exec('TRUNCATE TABLE products');
                     $this->pdo->exec('TRUNCATE TABLE shops');
                     $this->pdo->exec('SET FOREIGN_KEY_CHECKS = 1');
                 }
             }
             $this->pdo->beginTransaction();
+
+            $driver = $this->pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
+            $hasVariants = false;
+            if ($driver === 'sqlite') {
+                $r = $this->pdo->query("SELECT 1 FROM sqlite_master WHERE type='table' AND name='product_variants'");
+                $hasVariants = $r && $r->fetch();
+            } else {
+                $r = $this->pdo->query("SHOW TABLES LIKE 'product_variants'");
+                $hasVariants = $r && $r->rowCount() > 0;
+            }
+            if (!$hasVariants) {
+                if ($driver === 'sqlite') {
+                    $this->pdo->exec("CREATE TABLE IF NOT EXISTS product_variants (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        product_id INTEGER NOT NULL,
+                        name VARCHAR(255) NOT NULL,
+                        price REAL,
+                        FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+                    )");
+                    $this->pdo->exec("CREATE INDEX IF NOT EXISTS idx_pv_product ON product_variants(product_id)");
+                } else {
+                    $this->pdo->exec("CREATE TABLE IF NOT EXISTS `product_variants` (
+                        `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                        `product_id` INT UNSIGNED NOT NULL,
+                        `name` VARCHAR(255) NOT NULL,
+                        `price` DECIMAL(10,2) DEFAULT NULL,
+                        FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE CASCADE
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+                }
+            }
+
             $importedShops = 0;
             $importedProducts = 0;
 
@@ -101,7 +146,16 @@ class DataImporter
                         $product['price'] ?? null,
                         $pFulltext,
                     ]);
+                    $productId = (int) $this->pdo->lastInsertId();
                     $importedProducts++;
+
+                    foreach ($product['variants'] ?? [] as $v) {
+                        $vName = is_array($v) ? ($v['name'] ?? '') : (string) $v;
+                        if (empty($vName)) continue;
+                        $vPrice = is_array($v) && isset($v['price']) ? $v['price'] : null;
+                        $stmtV = $this->pdo->prepare("INSERT INTO product_variants (product_id, name, price) VALUES (?, ?, ?)");
+                        $stmtV->execute([$productId, $vName, $vPrice]);
+                    }
                 }
             }
 

@@ -53,9 +53,21 @@ $hasTabs = count($productsByCategory) > 1;
                     <div class="tab-content <?= $i === 0 ? 'active' : '' ?>" id="tab-<?= $i ?>">
                         <div class="product-cards">
                             <?php foreach ($items as $p): ?>
-                            <div class="product-card">
+                            <div class="product-card product-card-with-variants">
                                 <span class="product-name"><?= htmlspecialchars($p['name']) ?></span>
-                                <?php if (isset($p['price']) && $p['price']): ?>
+                                <?php if (!empty($p['variants'])): ?>
+                                <ul class="product-variants">
+                                    <?php foreach ($p['variants'] as $v): ?>
+                                    <li>
+                                        <?= htmlspecialchars($v['name']) ?>
+                                        <?php if (isset($v['price']) && $v['price']): ?>
+                                        <span class="variant-price"><?= number_format((float)$v['price'], 2) ?> ₽</span>
+                                        <?php endif; ?>
+                                    </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                                <?php endif; ?>
+                                <?php if (isset($p['price']) && $p['price'] && empty($p['variants'])): ?>
                                 <span class="product-price"><?= number_format((float)$p['price'], 2) ?> ₽</span>
                                 <?php endif; ?>
                             </div>
@@ -67,12 +79,24 @@ $hasTabs = count($productsByCategory) > 1;
                 <?php else: ?>
                 <div class="product-cards">
                     <?php foreach ($products as $p): ?>
-                    <div class="product-card">
+                    <div class="product-card product-card-with-variants">
                         <span class="product-name"><?= htmlspecialchars($p['name']) ?></span>
+                        <?php if (!empty($p['variants'])): ?>
+                        <ul class="product-variants">
+                            <?php foreach ($p['variants'] as $v): ?>
+                            <li>
+                                <?= htmlspecialchars($v['name']) ?>
+                                <?php if (isset($v['price']) && $v['price']): ?>
+                                <span class="variant-price"><?= number_format((float)$v['price'], 2) ?> ₽</span>
+                                <?php endif; ?>
+                            </li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <?php endif; ?>
                         <?php if (!empty($p['category'])): ?>
                         <span class="product-cat"><?= htmlspecialchars($p['category']) ?></span>
                         <?php endif; ?>
-                        <?php if (isset($p['price']) && $p['price']): ?>
+                        <?php if (isset($p['price']) && $p['price'] && empty($p['variants'])): ?>
                         <span class="product-price"><?= number_format((float)$p['price'], 2) ?> ₽</span>
                         <?php endif; ?>
                     </div>

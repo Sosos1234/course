@@ -39,8 +39,8 @@ $siteConfig = $config ?? [];
                 <a href="index.php?page=news" class="nav-link <?= $page === 'news' ? 'active' : '' ?>">Новости</a>
                 <a href="index.php?page=about" class="nav-link <?= $page === 'about' ? 'active' : '' ?>">О центре</a>
                 <a href="index.php?page=contacts" class="nav-link <?= $page === 'contacts' ? 'active' : '' ?>">Контакты</a>
+                <a href="admin.php" class="nav-link nav-admin">Админ</a>
                 <?php if (!empty($_SESSION['admin'])): ?>
-                <a href="index.php?page=admin" class="nav-link nav-admin">Админ</a>
                 <a href="index.php?page=admin&logout=1" class="nav-link">Выход</a>
                 <?php endif; ?>
             </nav>
@@ -72,7 +72,7 @@ $siteConfig = $config ?? [];
                     <a href="index.php?page=news">Новости</a>
                     <a href="index.php?page=about">О центре</a>
                     <a href="index.php?page=contacts">Контакты</a>
-                    <a href="index.php?page=admin">Админ</a>
+                    <a href="admin.php">Админ</a>
                 </div>
                 <div class="footer-info">
                     <p><span class="footer-label">Режим работы:</span> <?= htmlspecialchars($siteConfig['work_hours'] ?? '9:00 - 22:00') ?></p>

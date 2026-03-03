@@ -109,4 +109,31 @@ class Product
         $stmt = $this->pdo->prepare("DELETE FROM products WHERE id = ?");
         return $stmt->execute([$id]);
     }
+
+    /**
+     * Получить варианты для нескольких товаров (product_id => variants[])
+     */
+    public function getVariantsForProducts(array $productIds): array
+    {
+        if (empty($productIds)) {
+            return [];
+        }
+        $placeholders = implode(',', array_fill(0, count($productIds), '?'));
+        $stmt = $this->pdo->prepare("
+            SELECT id, product_id, name, price
+            FROM product_variants
+            WHERE product_id IN ($placeholders)
+            ORDER BY product_id, name
+        ");
+        $stmt->execute(array_values($productIds));
+        $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $result = [];
+        foreach ($productIds as $pid) {
+            $result[$pid] = [];
+        }
+        foreach ($rows as $r) {
+            $result[(int) $r['product_id']][] = $r;
+        }
+        return $result;
+    }
 }

@@ -570,6 +570,25 @@ body {
     font-size: 0.95rem;
 }
 
+.product-card.product-card-with-variants {
+    min-width: 0;
+}
+.product-variants {
+    margin: 0.5rem 0 0;
+    padding-left: 1.1rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    list-style: disc;
+}
+.product-variants li {
+    margin-bottom: 0.2rem;
+}
+.product-variants .variant-price {
+    color: var(--accent);
+    font-weight: 500;
+    margin-left: 0.25rem;
+}
+
 /* Search */
 .search-form-inline {
     display: flex;
